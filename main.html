@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>25 Anos - Engels Eduardo Cenci</title>
+    
+    <!-- Bootstrap 5 CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* RESET MOBILE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        :root {
+            --primary: #7c3aed;
+            --primary-dark: #5b21b6;
+            --secondary: #f59e0b;
+            --accent: #10b981;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gold: #fbbf24;
+            --danger: #ef4444;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            padding-bottom: 80px; /* Espaço para controles */
+        }
+        
+        /* FOGOS DE ARTIFÍCIO - OTIMIZADO PARA MOBILE */
+        #fireworksCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            display: block;
+        }
+        
+        /* OVERLAY DE BRILHO - MAIS VISÍVEL */
+        .light-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            background: radial-gradient(
+                circle at var(--x, 50%) var(--y, 50%),
+                rgba(255, 215, 0, 0.3) 0%,
+                rgba(255, 140, 0, 0.2) 30%,
+                transparent 70%
+            );
+            mix-blend-mode: screen;
+        }
+        
+        /* HEADER MOBILE-FIRST */
+        .header-section {
+            padding: 2rem 1rem;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.9) 0%, transparent 100%);
+        }
+        
+        .age-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--secondary), var(--gold));
+            color: white;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
+        
+        .main-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--light), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+        
+        .info-badges {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        
+        .info-badge {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+        
+        .info-badge i {
+            color: var(--secondary);
+            font-size: 1.1rem;
+        }
+        
+        /* CARDS MOBILE - SEM HOVER */
+        .info-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            color: white;
+        }
+        
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: var(--light);
+        }
+        
+        /* SEÇÃO DE CONFIRMAÇÃO */
+        .confirmation-section {
+            background: linear-gradient(135deg, 
+                rgba(124, 58, 237, 0.15) 0%, 
+                rgba(245, 158, 11, 0.1) 100%);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+        
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            border: none;
+            padding: 16px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            width: 100%;
+            max-width: 300px;
+            margin-top: 1rem;
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
+            transition: transform 0.2s ease;
+        }
+        
+        .whatsapp-btn:active {
+            transform: scale(0.98);
+        }
+        
+        /* CONTROLES MOBILE FIXOS */
+        .mobile-controls {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            display: flex;
+            justify-content: space-around;
+        }
+        
+        .control-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .control-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .control-btn.active {
+            background: var(--secondary);
+            border-color: var(--secondary);
+        }
+        
+        /* CONTADOR DE CONFIRMAÇÕES MOBILE */
+        .confirmation-counter {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .counter-number {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        
+        .counter-label {
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* FOOTER MOBILE */
+        .footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            margin-top: 2rem;
+        }
+        
+        /* ANIMAÇÕES PARA MOBILE */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 10px rgba(245, 158, 11, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.8); }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease forwards;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        .glow {
+            animation: glow 3s infinite;
+        }
+        
+        /* UTILITÁRIOS */
+        .hidden {
+            display: none !important;
+        }
+        
+        /* ESPAÇAMENTO PARA CONTROLES */
+        .content-wrapper {
+            padding-bottom: 80px;
+        }
+        
+        /* RESPONSIVIDADE PARA TABLET */
+        @media (min-width: 768px) {
+            .header-section {
+                padding: 3rem 2rem;
+            }
+            
+            .main-title {
+                font-size: 3.5rem;
+            }
+            
+            .info-badges {
+                flex-direction: row;
+                flex-wrap: wrap;
+                max-width: 600px;
+                justify-content: center;
+            }
+            
+            .info-badge {
+                flex: 1;
+                min-width: 200px;
+            }
+            
+            .mobile-controls {
+                display: none;
+            }
+            
+            /* CONTROLES DESKTOP */
+            .desktop-controls {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 100;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .desktop-btn {
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                color: white;
+                padding: 10px 20px;
+                border-radius: 50px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-size: 0.9rem;
+                cursor: pointer;
+            }
+        }
+        
+        /* AJUSTES PARA TELAS MUITO PEQUENAS */
+        @media (max-width: 360px) {
+            .main-title {
+                font-size: 2rem;
+            }
+            
+            .info-badge {
+                font-size: 0.9rem;
+                padding: 10px;
+            }
+            
+            .control-btn {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .whatsapp-btn {
+                padding: 14px 20px;
+                font-size: 1rem;
+            }
+        }
+        
+        /* PREVENIR ZOOM EM INPUTS */
+        input, textarea {
+            font-size: 16px !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Canvas para fogos de artifício -->
+    <canvas id="fireworksCanvas"></canvas>
+    
+    <!-- Overlay de brilho -->
+    <div class="light-overlay" id="lightOverlay"></div>
+    
+    <!-- Contador de confirmações -->
+    <div class="confirmation-counter animate-fade-in">
+        <span class="counter-number" id="confirmationCount">0</span>
+        <span class="counter-label">Confirm.</span>
+    </div>
+
+    <div class="content-wrapper">
+        <!-- Header -->
+        <section class="header-section">
+            <div class="age-badge pulse">🎉 25 ANOS 🎉</div>
+            <h1 class="main-title">Engels Eduardo Cenci</h1>
+            <p class="subtitle">Celebrando um quarto de século de vida!</p>
+            
+            <div class="info-badges">
+                <div class="info-badge animate-fade-in" style="animation-delay: 0.1s">
+                    <i class="fas fa-calendar-day"></i>
+                    <span>5 de Fevereiro</span>
+                </div>
+                <div class="info-badge animate-fade-in" style="animation-delay: 0.2s">
+                    <i class="fas fa-clock"></i>
+                    <span>20:00 Horas</span>
+                </div>
+                <div class="info-badge animate-fade-in" style="animation-delay: 0.3s">
+                    <i class="fas fa-home"></i>
+                    <span>Minha Casa</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conteúdo Principal -->
+        <div class="container">
+            <!-- Informações -->
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <div class="info-card animate-fade-in" style="animation-delay: 0.4s">
+                        <div class="card-icon">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <h3 class="card-title">Jantar Comemorativo</h3>
+                        <p>Buffet especial com pratos selecionados, bebidas e um ambiente preparado para uma noite inesquecível.</p>
+                    </div>
+                </div>
+                
+                <div class="col-12 mb-3">
+                    <div class="info-card animate-fade-in" style="animation-delay: 0.5s">
+                        <div class="card-icon">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <h3 class="card-title">Música e Ambiente</h3>
+                        <p>Playlist personalizada com os melhores hits para dançar e celebrar esta data especial.</p>
+                    </div>
+                </div>
+                
+                <div class="col-12 mb-3">
+                    <div class="info-card animate-fade-in" style="animation-delay: 0.6s">
+                        <div class="card-icon">
+                            <i class="fas fa-glass-cheers"></i>
+                        </div>
+                        <h3 class="card-title">Momento Especial</h3>
+                        <p>Celebração dos 25 anos com amigos e familiares. Uma noite para guardar na memória!</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Confirmação -->
+            <div class="confirmation-section animate-fade-in" style="animation-delay: 0.7s">
+                <h3 class="card-title mb-3">Confirme sua presença!</h3>
+                <p>Sua presença é o melhor presente! Me avise que você vem para eu me preparar para esta noite especial.</p>
+                
+                <a href="https://wa.me/5551984238876?text=Olá%20Engels!%20Confirmo%20minha%20presença%20no%20seu%20aniversário%20de%2025%20anos%20dia%205%20de%20fevereiro!"
+                   class="whatsapp-btn glow"
+                   id="whatsappBtn"
+                   target="_blank">
+                    <i class="fab fa-whatsapp"></i>
+                    Confirmar no WhatsApp
+                </a>
+                
+                <p class="mt-3 small" style="opacity: 0.8;">
+                    <i class="fas fa-info-circle"></i> Você será redirecionado para o WhatsApp
+                </p>
+            </div>
+            
+            <!-- Informações Adicionais -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="info-card">
+                        <h4 class="card-title mb-3">📍 Localização</h4>
+                        <p>O evento será na minha residência. O endereço completo será enviado via WhatsApp após a confirmação.</p>
+                        
+                        <div class="mt-4">
+                            <h5 class="mb-2">📝 Informações Importantes</h5>
+                            <div class="d-flex align-items-start mb-2">
+                                <i class="fas fa-gift text-warning mt-1 me-2"></i>
+                                <span><strong>Presentes:</strong> Sua presença já é um presente! Mas se quiser trazer algo, boas energias são sempre bem-vindas.</span>
+                            </div>
+                            <div class="d-flex align-items-start mb-2">
+                                <i class="fas fa-car text-info mt-1 me-2"></i>
+                                <span><strong>Estacionamento:</strong> Há vagas disponíveis na rua. Pedimos atenção aos locais permitidos.</span>
+                            </div>
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-tshirt text-primary mt-1 me-2"></i>
+                                <span><strong>Traje:</strong> Venha confortável e feliz! O importante é celebrar junto.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Desenvolvido com ❤️ para celebrar 25 anos</p>
+            <p class="mt-2 small">Engels Eduardo Cenci • 5 de Fevereiro</p>
+        </footer>
+    </div>
+    
+    <!-- Controles Mobile -->
+    <div class="mobile-controls">
+        <button class="control-btn active" id="toggleFireworksMobile" title="Ligar/Desligar fogos">
+            <i class="fas fa-fire" id="fireworksIconMobile"></i>
+        </button>
+        <button class="control-btn" id="launchFireworksMobile" title="Lançar fogos agora">
+            <i class="fas fa-bolt"></i>
+        </button>
+    </div>
+
+    <!-- Bootstrap JS (só funcionalidades básicas) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // SISTEMA DE FOGOS DE ARTIFÍCIO OTIMIZADO PARA MOBILE
+        class MobileFireworks {
+            constructor() {
+                this.canvas = document.getElementById('fireworksCanvas');
+                this.ctx = this.canvas.getContext('2d', { alpha: true });
+                this.particles = [];
+                this.fireworks = [];
+                this.isActive = true;
+                this.animationId = null;
+                this.lastFrameTime = 0;
+                this.fps = 60;
+                this.frameInterval = 1000 / this.fps;
+                
+                // Configurações otimizadas para mobile
+                this.config = {
+                    maxParticles: 180,
+                    maxFireworks: 6,
+                    gravity: 0.12, // Mais gravidade para queda mais realista
+                    wind: 0.03,
+                    particleFadeSpeed: 0.02,
+                    trailLength: 6
+                };
+                
+                // Cores vibrantes e realistas
+                this.colors = [
+                    '#FF5252', // Vermelho vivo
+                    '#4FC3F7', // Azul brilhante
+                    '#69F0AE', // Verde vibrante
+                    '#FFD740', // Amarelo ouro
+                    '#FF4081', // Rosa forte
+                    '#7C4DFF', // Roxo intenso
+                    '#FF6E40', // Laranja queimado
+                    '#18FFFF', // Ciano brilhante
+                    '#FFEA00', // Amarelo neon
+                    '#00E676'  // Verde neon
+                ];
+                
+                this.init();
+            }
+            
+            init() {
+                this.resizeCanvas();
+                window.addEventListener('resize', () => this.resizeCanvas());
+                this.startAnimation();
+                this.launchInitialFireworks();
+            }
+            
+            resizeCanvas() {
+                const dpr = Math.min(window.devicePixelRatio || 1, 2); // Limitar DPR para performance
+                const rect = this.canvas.getBoundingClientRect();
+                
+                this.canvas.width = rect.width * dpr;
+                this.canvas.height = rect.height * dpr;
+                
+                this.ctx.scale(dpr, dpr);
+                this.canvas.style.width = rect.width + 'px';
+                this.canvas.style.height = rect.height + 'px';
+            }
+            
+            startAnimation() {
+                const animate = (currentTime) => {
+                    this.animationId = requestAnimationFrame(animate);
+                    
+                    // Controlar FPS para economizar bateria
+                    const deltaTime = currentTime - this.lastFrameTime;
+                    if (deltaTime < this.frameInterval) return;
+                    
+                    this.lastFrameTime = currentTime - (deltaTime % this.frameInterval);
+                    
+                    // Limpar canvas com efeito de rastro sutil
+                    this.ctx.fillStyle = 'rgba(15, 23, 42, 0.12)';
+                    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                    
+                    // Atualizar e desenhar
+                    this.update(currentTime);
+                    this.draw();
+                };
+                
+                this.animationId = requestAnimationFrame(animate);
+            }
+            
+            update(currentTime) {
+                // Limitar partículas para evitar travamento
+                if (this.particles.length > this.config.maxParticles) {
+                    this.particles.splice(0, this.particles.length - this.config.maxParticles);
+                }
+                
+                // Atualizar fogos subindo
+                for (let i = this.fireworks.length - 1; i >= 0; i--) {
+                    const fw = this.fireworks[i];
+                    
+                    // Física realista com resistência do ar
+                    fw.velocity.y -= fw.speed * 0.06;
+                    fw.x += Math.sin(fw.angle) * 0.6;
+                    fw.y += fw.velocity.y;
+                    
+                    // Adicionar partículas de rastro (mais visíveis)
+                    if (Math.random() > 0.4) {
+                        this.addTrailParticle(fw.x, fw.y, fw.color);
+                    }
+                    
+                    // Explodir no ponto certo
+                    if (fw.velocity.y >= 0 || fw.y <= fw.targetY) {
+                        this.explodeFirework(fw);
+                        this.fireworks.splice(i, 1);
+                    }
+                }
+                
+                // Atualizar partículas
+                for (let i = this.particles.length - 1; i >= 0; i--) {
+                    const p = this.particles[i];
+                    
+                    // Física mais realista
+                    p.velocity.x += (Math.random() - 0.5) * 0.08;
+                    p.velocity.y += this.config.gravity;
+                    p.x += p.velocity.x;
+                    p.y += p.velocity.y;
+                    
+                    // Efeito de desvanecimento
+                    p.alpha -= this.config.particleFadeSpeed * p.fadeMultiplier;
+                    p.size *= 0.96;
+                    
+                    // Remover partículas desvanecidas
+                    if (p.alpha <= 0 || p.size <= 0.2) {
+                        this.particles.splice(i, 1);
+                    }
+                }
+            }
+            
+            draw() {
+                this.ctx.globalCompositeOperation = 'lighter';
+                
+                // Desenhar partículas com gradiente realista
+                this.particles.forEach(p => {
+                    if (p.alpha > 0) {
+                        // Gradiente radial para brilho
+                        const gradient = this.ctx.createRadialGradient(
+                            p.x, p.y, 0,
+                            p.x, p.y, p.size
+                        );
+                        
+                        gradient.addColorStop(0, p.color + 'FF');
+                        gradient.addColorStop(0.7, p.color + 'CC');
+                        gradient.addColorStop(1, p.color + '00');
+                        
+                        this.ctx.beginPath();
+                        this.ctx.fillStyle = gradient;
+                        this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        this.ctx.fill();
+                        
+                        // Núcleo branco brilhante
+                        if (p.size > 1.5) {
+                            this.ctx.beginPath();
+                            this.ctx.fillStyle = '#FFFFFF';
+                            this.ctx.globalAlpha = p.alpha * 0.7;
+                            this.ctx.arc(p.x, p.y, p.size * 0.3, 0, Math.PI * 2);
+                            this.ctx.fill();
+                            this.ctx.globalAlpha = 1;
+                        }
+                    }
+                });
+                
+                // Desenhar fogos subindo com rastro
+                this.fireworks.forEach(fw => {
+                    // Corpo principal com gradiente
+                    const gradient = this.ctx.createLinearGradient(
+                        fw.x, fw.y,
+                        fw.x, fw.y + 10
+                    );
+                    
+                    gradient.addColorStop(0, fw.color + 'FF');
+                    gradient.addColorStop(0.5, fw.color + 'AA');
+                    gradient.addColorStop(1, fw.color + '00');
+                    
+                    this.ctx.beginPath();
+                    this.ctx.fillStyle = gradient;
+                    this.ctx.ellipse(fw.x, fw.y, 2.5, 9, 0, 0, Math.PI * 2);
+                    this.ctx.fill();
+                    
+                    // Brilho intenso
+                    this.ctx.beginPath();
+                    this.ctx.fillStyle = '#FFFFFF';
+                    this.ctx.globalAlpha = 0.9;
+                    this.ctx.arc(fw.x, fw.y, 2, 0, Math.PI * 2);
+                    this.ctx.fill();
+                    this.ctx.globalAlpha = 1;
+                });
+                
+                this.ctx.globalCompositeOperation = 'source-over';
+            }
+            
+            addTrailParticle(x, y, color) {
+                if (this.particles.length >= this.config.maxParticles) return;
+                
+                this.particles.push({
+                    x: x + (Math.random() - 0.5) * 3,
+                    y: y + (Math.random() - 0.5) * 3,
+                    color: color,
+                    size: 1.2 + Math.random() * 1.8,
+                    velocity: {
+                        x: (Math.random() - 0.5) * 0.6,
+                        y: Math.random() * 0.8
+                    },
+                    alpha: 0.6 + Math.random() * 0.4,
+                    life: 1,
+                    fadeMultiplier: 0.8 + Math.random() * 0.4
+                });
+            }
+            
+            createFirework(x, targetY, color) {
+                if (this.fireworks.length >= this.config.maxFireworks) return;
+                
+                this.fireworks.push({
+                    x: x,
+                    y: this.canvas.height,
+                    targetY: targetY,
+                    color: color,
+                    speed: 2 + Math.random() * 1.5,
+                    velocity: { x: 0, y: -9 - Math.random() * 4 },
+                    angle: Math.random() * Math.PI * 2,
+                    trail: []
+                });
+                
+                // Efeito de brilho mais forte
+                this.createLightEffect(x, targetY, color);
+            }
+            
+            createLightEffect(x, y, color) {
+                const overlay = document.getElementById('lightOverlay');
+                overlay.style.setProperty('--x', `${x}px`);
+                overlay.style.setProperty('--y', `${y}px`);
+                overlay.style.opacity = '0.8'; // Mais visível
+                
+                setTimeout(() => {
+                    overlay.style.opacity = '0';
+                }, 1000);
+            }
+            
+            explodeFirework(fw) {
+                const isMobile = window.innerWidth < 768;
+                const particleCount = isMobile ? 70 : 120; // Mais partículas
+                const explosionPower = 3 + Math.random() * 2;
+                
+                // 25% de chance de efeito especial para 25 anos
+                if (Math.random() > 0.75) {
+                    this.createNumberEffect(fw.x, fw.y);
+                }
+                
+                // Tipos diferentes de explosão
+                const explosionType = Math.random();
+                
+                for (let i = 0; i < particleCount; i++) {
+                    if (this.particles.length >= this.config.maxParticles) break;
+                    
+                    let angle, speed;
+                    
+                    if (explosionType > 0.7) {
+                        // Explosão em anel
+                        angle = (i / particleCount) * Math.PI * 2;
+                        speed = explosionPower * 0.8;
+                    } else if (explosionType > 0.4) {
+                        // Explosão esférica
+                        angle = Math.random() * Math.PI * 2;
+                        speed = explosionPower * (0.5 + Math.random() * 0.5);
+                    } else {
+                        // Explosão em estrela
+                        const arms = 5 + Math.floor(Math.random() * 3);
+                        angle = (Math.floor(i / (particleCount / arms)) / arms) * Math.PI * 2;
+                        speed = explosionPower * (0.7 + Math.random() * 0.3);
+                    }
+                    
+                    this.particles.push({
+                        x: fw.x,
+                        y: fw.y,
+                        color: fw.color,
+                        size: 2.5 + Math.random() * 3.5,
+                        velocity: {
+                            x: Math.cos(angle) * speed,
+                            y: Math.sin(angle) * speed
+                        },
+                        alpha: 1,
+                        life: 1,
+                        fadeMultiplier: 0.9 + Math.random() * 0.2
+                    });
+                }
+                
+                // Partículas especiais de brilho
+                for (let i = 0; i < 15; i++) {
+                    this.particles.push({
+                        x: fw.x,
+                        y: fw.y,
+                        color: '#FFFFFF',
+                        size: 1 + Math.random() * 2,
+                        velocity: {
+                            x: (Math.random() - 0.5) * 2,
+                            y: (Math.random() - 0.5) * 2
+                        },
+                        alpha: 0.8,
+                        life: 1,
+                        fadeMultiplier: 1.2
+                    });
+                }
+            }
+            
+            createNumberEffect(x, y) {
+                // Efeito especial para 25 anos
+                const starCount = 25; // 25 partículas para 25 anos
+                
+                for (let i = 0; i < starCount; i++) {
+                    this.particles.push({
+                        x: x,
+                        y: y,
+                        color: '#FFD700', // Dourado
+                        size: 2 + Math.random() * 2,
+                        velocity: {
+                            x: (Math.random() - 0.5) * 4,
+                            y: (Math.random() - 0.5) * 4
+                        },
+                        alpha: 1,
+                        life: 1,
+                        fadeMultiplier: 0.7
+                    });
+                }
+            }
+            
+            launchRandomFirework() {
+                if (!this.isActive || this.fireworks.length >= this.config.maxFireworks) return;
+                
+                const margin = 40;
+                const x = margin + Math.random() * (this.canvas.width - 2 * margin);
+                const targetY = 60 + Math.random() * (this.canvas.height * 0.6);
+                const color = this.colors[Math.floor(Math.random() * this.colors.length)];
+                
+                this.createFirework(x, targetY, color);
+            }
+            
+            launchInitialFireworks() {
+                // Sequência inicial de fogos
+                for (let i = 0; i < 4; i++) {
+                    setTimeout(() => {
+                        this.launchRandomFirework();
+                    }, i * 600);
+                }
+            }
+            
+            launchCelebration() {
+                if (!this.isActive) return;
+                
+                const count = window.innerWidth < 768 ? 5 : 8;
+                const delay = 180;
+                
+                for (let i = 0; i < count; i++) {
+                    setTimeout(() => {
+                        this.launchRandomFirework();
+                    }, i * delay);
+                }
+            }
+            
+            launchNow() {
+                if (!this.isActive) return;
+                
+                const isMobile = window.innerWidth < 768;
+                const count = isMobile ? 4 : 6;
+                const delay = 120;
+                
+                for (let i = 0; i < count; i++) {
+                    setTimeout(() => {
+                        this.launchRandomFirework();
+                    }, i * delay);
+                }
+            }
+            
+            toggle() {
+                this.isActive = !this.isActive;
+                
+                if (!this.isActive) {
+                    // Limpar rapidamente
+                    this.particles = [];
+                    this.fireworks = [];
+                } else {
+                    // Reativar com fogos
+                    setTimeout(() => this.launchNow(), 300);
+                }
+                
+                return this.isActive;
+            }
+        }
+
+        // SISTEMA DO CONVITE MOBILE
+        class MobileBirthdayInvite {
+            constructor() {
+                this.confirmationCount = parseInt(localStorage.getItem('birthdayConfirmations')) || 0;
+                this.fireworksSystem = null;
+                this.init();
+            }
+            
+            init() {
+                // Inicializar fogos
+                this.fireworksSystem = new MobileFireworks();
+                
+                // Elementos DOM
+                this.confirmationCountElement = document.getElementById('confirmationCount');
+                this.toggleFireworksBtn = document.getElementById('toggleFireworksMobile');
+                this.launchFireworksBtn = document.getElementById('launchFireworksMobile');
+                this.fireworksIconMobile = document.getElementById('fireworksIconMobile');
+                this.whatsappBtn = document.getElementById('whatsappBtn');
+                
+                // Atualizar contador
+                this.updateConfirmationCount();
+                
+                // Configurar event listeners para mobile
+                this.setupMobileEventListeners();
+                
+                // Animações iniciais
+                this.setupAnimations();
+                
+                // Sistema de sincronização
+                this.setupSync();
+                
+                // Performance mobile
+                this.setupPerformance();
+            }
+            
+            updateConfirmationCount() {
+                this.confirmationCountElement.textContent = this.confirmationCount;
+                
+                // Animação sutil
+                this.confirmationCountElement.classList.add('pulse');
+                setTimeout(() => {
+                    this.confirmationCountElement.classList.remove('pulse');
+                }, 500);
+            }
+            
+            setupMobileEventListeners() {
+                // Touch events otimizados para mobile
+                this.toggleFireworksBtn.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    const isActive = this.fireworksSystem.toggle();
+                    this.fireworksIconMobile.className = isActive ? 'fas fa-fire' : 'fas fa-fire-extinguisher';
+                    this.toggleFireworksBtn.classList.toggle('active', isActive);
+                    
+                    // Feedback tátil
+                    this.toggleFireworksBtn.style.transform = 'scale(0.9)';
+                    setTimeout(() => {
+                        this.toggleFireworksBtn.style.transform = '';
+                    }, 100);
+                }, { passive: false });
+                
+                this.launchFireworksBtn.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    this.fireworksSystem.launchNow();
+                    
+                    // Feedback tátil
+                    this.launchFireworksBtn.style.transform = 'scale(0.9)';
+                    setTimeout(() => {
+                        this.launchFireworksBtn.style.transform = '';
+                    }, 100);
+                }, { passive: false });
+                
+                // Clique normal para desktop
+                this.toggleFireworksBtn.addEventListener('click', (e) => {
+                    if (!('ontouchstart' in window)) {
+                        const isActive = this.fireworksSystem.toggle();
+                        this.fireworksIconMobile.className = isActive ? 'fas fa-fire' : 'fas fa-fire-extinguisher';
+                        this.toggleFireworksBtn.classList.toggle('active', isActive);
+                    }
+                });
+                
+                this.launchFireworksBtn.addEventListener('click', (e) => {
+                    if (!('ontouchstart' in window)) {
+                        this.fireworksSystem.launchNow();
+                    }
+                });
+                
+                // Confirmação via WhatsApp
+                this.whatsappBtn.addEventListener('click', () => {
+                    this.incrementConfirmation();
+                    
+                    // Disparar fogos de celebração
+                    setTimeout(() => {
+                        this.fireworksSystem.launchCelebration();
+                    }, 300);
+                });
+            }
+            
+            incrementConfirmation() {
+                this.confirmationCount++;
+                localStorage.setItem('birthdayConfirmations', this.confirmationCount);
+                this.updateConfirmationCount();
+                
+                // Feedback visual
+                const counter = document.querySelector('.confirmation-counter');
+                counter.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    counter.style.transform = 'scale(1)';
+                }, 300);
+            }
+            
+            setupAnimations() {
+                // Animar elementos com delay
+                const animatedElements = document.querySelectorAll('.animate-fade-in');
+                animatedElements.forEach((el, index) => {
+                    setTimeout(() => {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    }, index * 100);
+                });
+            }
+            
+            setupSync() {
+                // Sincronizar entre abas/dispositivos
+                setInterval(() => {
+                    try {
+                        const saved = parseInt(localStorage.getItem('birthdayConfirmations')) || 0;
+                        if (saved !== this.confirmationCount) {
+                            this.confirmationCount = saved;
+                            this.updateConfirmationCount();
+                        }
+                    } catch (e) {
+                        console.error('Erro na sincronização:', e);
+                    }
+                }, 2000);
+            }
+            
+            setupPerformance() {
+                // Otimizar performance em mobile
+                let lastTap = 0;
+                
+                document.addEventListener('touchstart', (e) => {
+                    const currentTime = new Date().getTime();
+                    const tapLength = currentTime - lastTap;
+                    
+                    if (tapLength < 500 && tapLength > 0) {
+                        e.preventDefault(); // Prevenir double-tap zoom
+                    }
+                    lastTap = currentTime;
+                }, { passive: false });
+                
+                // Pausar animações quando não visível
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden) {
+                        this.fireworksSystem.isActive = false;
+                    } else {
+                        this.fireworksSystem.isActive = true;
+                        setTimeout(() => {
+                            this.fireworksSystem.launchNow();
+                        }, 500);
+                    }
+                });
+                
+                // Disparar fogos aleatórios periodicamente
+                setInterval(() => {
+                    if (this.fireworksSystem.isActive && Math.random() > 0.6) {
+                        this.fireworksSystem.launchRandomFirework();
+                    }
+                }, 4000);
+            }
+        }
+
+        // Inicializar quando o DOM estiver pronto
+        document.addEventListener('DOMContentLoaded', () => {
+            const invite = new MobileBirthdayInvite();
+            
+            // Prevenir comportamentos padrão
+            document.addEventListener('touchmove', (e) => {
+                if (e.scale !== 1) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+            
+            // Melhorar experiência de toque
+            document.addEventListener('touchstart', () => {}, { passive: true });
+        });
+    </script>
+</body>
+</html>
