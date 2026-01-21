@@ -6,7 +6,7 @@
     <title>25 Anos - Engels Eduardo Cenci</title>
     
     <!-- Bootstrap 5 CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -17,31 +17,18 @@
             padding: 0;
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
-            -webkit-font-smoothing: antialiased;
-        }
-        
-        :root {
-            --primary: #7c3aed;
-            --primary-dark: #5b21b6;
-            --secondary: #f59e0b;
-            --accent: #10b981;
-            --dark: #0f172a;
-            --light: #f8fafc;
-            --gold: #fbbf24;
-            --danger: #ef4444;
         }
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: var(--light);
+            background: #0a0a0a;
+            color: #ffffff;
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
-            padding-bottom: 80px; /* Espaço para controles */
         }
         
-        /* FOGOS DE ARTIFÍCIO - OTIMIZADO PARA MOBILE */
+        /* FOGOS EM PRIMEIRO PLANO - SOBREPOSTOS */
         #fireworksCanvas {
             position: fixed;
             top: 0;
@@ -49,494 +36,471 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 1;
-            display: block;
+            z-index: 9999; /* AGORA SOBREPOSTO */
         }
         
-        /* OVERLAY DE BRILHO - MAIS VISÍVEL */
-        .light-overlay {
-            position: fixed;
+        /* CONTEÚDO ATRÁS DOS FOGOS */
+        .content-wrapper {
+            position: relative;
+            z-index: 10; /* ATRÁS dos fogos */
+            background: rgba(5, 5, 5, 0.7);
+            backdrop-filter: blur(3px);
+            min-height: 100vh;
+            padding: 1rem;
+        }
+        
+        /* HEADER ESTILIZADO */
+        .header-section {
+            padding: 2.5rem 1rem;
+            text-align: center;
+            background: rgba(20, 20, 30, 0.9);
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            border: 3px solid rgba(255, 215, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* EFEITO DE BRILHO NO HEADER */
+        .header-glow {
+            position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
+            right: 0;
             height: 100%;
+            background: radial-gradient(circle at center, 
+                rgba(255, 215, 0, 0.1) 0%,
+                transparent 70%);
             pointer-events: none;
-            z-index: 2;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            background: radial-gradient(
-                circle at var(--x, 50%) var(--y, 50%),
-                rgba(255, 215, 0, 0.3) 0%,
-                rgba(255, 140, 0, 0.2) 30%,
-                transparent 70%
-            );
-            mix-blend-mode: screen;
-        }
-        
-        /* HEADER MOBILE-FIRST */
-        .header-section {
-            padding: 2rem 1rem;
-            text-align: center;
-            position: relative;
-            z-index: 10;
-            background: linear-gradient(180deg, rgba(15, 23, 42, 0.9) 0%, transparent 100%);
         }
         
         .age-badge {
             display: inline-block;
-            background: linear-gradient(135deg, var(--secondary), var(--gold));
+            background: linear-gradient(45deg, #ff0080, #8000ff, #0080ff);
             color: white;
-            padding: 8px 20px;
+            padding: 12px 30px;
             border-radius: 30px;
-            font-weight: 700;
-            font-size: 1.2rem;
+            font-weight: 800;
+            font-size: 1.8rem;
             margin-bottom: 1.5rem;
-            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 30px rgba(255, 0, 128, 0.5);
+            animation: badgeGlow 3s infinite alternate;
+        }
+        
+        @keyframes badgeGlow {
+            0% { box-shadow: 0 0 20px rgba(255, 0, 128, 0.5); }
+            100% { box-shadow: 0 0 40px rgba(128, 0, 255, 0.7); }
         }
         
         .main-title {
-            font-size: 2.5rem;
-            font-weight: 700;
+            font-size: 3.5rem;
+            font-weight: 800;
             margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, var(--light), var(--gold));
+            background: linear-gradient(45deg, #ff8a00, #e52e71, #00d4ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            line-height: 1.2;
+            text-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
         }
         
         .subtitle {
-            font-size: 1.1rem;
-            opacity: 0.9;
-            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
         }
         
-        .info-badges {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-width: 300px;
-            margin: 0 auto;
-        }
-        
-        .info-badge {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 12px 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.95rem;
-        }
-        
-        .info-badge i {
-            color: var(--secondary);
-            font-size: 1.1rem;
-        }
-        
-        /* CARDS MOBILE - SEM HOVER */
+        /* INFO CARDS */
         .info-card {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(30, 30, 40, 0.85);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
             position: relative;
+            overflow: hidden;
         }
         
         .card-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            border-radius: 12px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(45deg, #ff0080, #8000ff);
+            border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
             color: white;
+            box-shadow: 0 5px 20px rgba(255, 0, 128, 0.3);
         }
         
         .card-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            color: #ffffff;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .info-card p {
             font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 0.8rem;
-            color: var(--light);
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
         }
         
-        /* SEÇÃO DE CONFIRMAÇÃO */
-        .confirmation-section {
-            background: linear-gradient(135deg, 
-                rgba(124, 58, 237, 0.15) 0%, 
-                rgba(245, 158, 11, 0.1) 100%);
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        /* SEÇÃO IMPORTANTE */
+        .important-section {
+            background: linear-gradient(45deg, 
+                rgba(255, 0, 128, 0.15), 
+                rgba(128, 0, 255, 0.15));
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2.5rem 0;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .important-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1.8rem;
+            color: #ffd700;
             text-align: center;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
         }
         
-        .whatsapp-btn {
-            display: inline-flex;
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 1.5rem;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            border-left: 4px solid #00d4ff;
+        }
+        
+        .info-item i {
+            color: #00d4ff;
+            font-size: 1.5rem;
+            margin-top: 3px;
+        }
+        
+        /* BADGES */
+        .info-badge {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 15px;
+            padding: 18px;
+            display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
-            background: linear-gradient(135deg, #25D366, #128C7E);
-            color: white;
-            border: none;
-            padding: 16px 30px;
-            border-radius: 50px;
-            font-size: 1.1rem;
+            gap: 15px;
+            font-size: 1.3rem;
             font-weight: 600;
-            text-decoration: none;
-            width: 100%;
-            max-width: 300px;
-            margin-top: 1rem;
-            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
-            transition: transform 0.2s ease;
+            margin-bottom: 12px;
         }
         
-        .whatsapp-btn:active {
-            transform: scale(0.98);
+        .info-badge i {
+            color: #ff8a00;
+            font-size: 1.5rem;
         }
         
-        /* CONTROLES MOBILE FIXOS */
+        /* CONTROLES MOBILE */
         .mobile-controls {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 12px;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10000; /* ACIMA dos fogos */
             display: flex;
-            justify-content: space-around;
+            flex-direction: column;
+            gap: 15px;
+            align-items: flex-end;
         }
         
         .control-btn {
-            width: 56px;
-            height: 56px;
+            width: 65px;
+            height: 65px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: linear-gradient(45deg, #ff0080, #8000ff);
+            border: 2px solid rgba(255, 255, 255, 0.3);
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.3rem;
+            font-size: 1.6rem;
             cursor: pointer;
+            box-shadow: 0 5px 25px rgba(255, 0, 128, 0.4);
             transition: all 0.2s ease;
         }
         
         .control-btn:active {
-            transform: scale(0.95);
+            transform: scale(0.92);
         }
         
         .control-btn.active {
-            background: var(--secondary);
-            border-color: var(--secondary);
+            background: linear-gradient(45deg, #00d4ff, #0080ff);
+            box-shadow: 0 5px 25px rgba(0, 212, 255, 0.4);
         }
         
-        /* CONTADOR DE CONFIRMAÇÕES MOBILE */
-        .confirmation-counter {
-            position: fixed;
-            top: 15px;
-            right: 15px;
-            z-index: 100;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .counter-number {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--secondary);
-        }
-        
-        .counter-label {
-            font-size: 0.6rem;
-            color: rgba(255, 255, 255, 0.7);
-        }
-        
-        /* FOOTER MOBILE */
+        /* FOOTER */
         .footer {
             text-align: center;
-            padding: 2rem 1rem;
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
+            padding: 2.5rem 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
             margin-top: 2rem;
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
         }
         
-        /* ANIMAÇÕES PARA MOBILE */
+        /* ANIMAÇÕES */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 0 10px rgba(245, 158, 11, 0.5); }
-            50% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.8); }
-        }
-        
         .animate-fade-in {
-            animation: fadeIn 0.6s ease forwards;
+            animation: fadeIn 0.8s ease forwards;
+            opacity: 0;
         }
         
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-        
-        .glow {
-            animation: glow 3s infinite;
-        }
-        
-        /* UTILITÁRIOS */
-        .hidden {
-            display: none !important;
-        }
-        
-        /* ESPAÇAMENTO PARA CONTROLES */
-        .content-wrapper {
-            padding-bottom: 80px;
-        }
-        
-        /* RESPONSIVIDADE PARA TABLET */
-        @media (min-width: 768px) {
+        /* RESPONSIVIDADE */
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 1rem;
+            }
+            
             .header-section {
-                padding: 3rem 2rem;
+                padding: 2rem 1rem;
             }
             
             .main-title {
-                font-size: 3.5rem;
+                font-size: 2.5rem;
             }
             
-            .info-badges {
-                flex-direction: row;
-                flex-wrap: wrap;
-                max-width: 600px;
-                justify-content: center;
+            .subtitle {
+                font-size: 1.2rem;
             }
             
-            .info-badge {
-                flex: 1;
-                min-width: 200px;
+            .age-badge {
+                font-size: 1.4rem;
+                padding: 10px 25px;
+            }
+            
+            .info-card {
+                padding: 1.5rem;
+            }
+            
+            .card-title {
+                font-size: 1.5rem;
+            }
+            
+            .card-icon {
+                width: 55px;
+                height: 55px;
+                font-size: 1.4rem;
+            }
+            
+            .info-card p {
+                font-size: 1.1rem;
+            }
+            
+            .control-btn {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
             }
             
             .mobile-controls {
-                display: none;
-            }
-            
-            /* CONTROLES DESKTOP */
-            .desktop-controls {
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                z-index: 100;
-                display: flex;
-                flex-direction: column;
+                bottom: 15px;
+                right: 15px;
                 gap: 10px;
-            }
-            
-            .desktop-btn {
-                background: rgba(255, 255, 255, 0.1);
-                backdrop-filter: blur(10px);
-                border: 1px solid rgba(255, 255, 255, 0.2);
-                color: white;
-                padding: 10px 20px;
-                border-radius: 50px;
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                font-size: 0.9rem;
-                cursor: pointer;
             }
         }
         
-        /* AJUSTES PARA TELAS MUITO PEQUENAS */
-        @media (max-width: 360px) {
+        @media (max-width: 480px) {
             .main-title {
                 font-size: 2rem;
             }
             
-            .info-badge {
-                font-size: 0.9rem;
-                padding: 10px;
-            }
-            
-            .control-btn {
-                width: 50px;
-                height: 50px;
-            }
-            
-            .whatsapp-btn {
-                padding: 14px 20px;
-                font-size: 1rem;
+            .age-badge {
+                font-size: 1.2rem;
             }
         }
         
-        /* PREVENIR ZOOM EM INPUTS */
-        input, textarea {
-            font-size: 16px !important;
+        /* MELHORAR VISIBILIDADE DO TEXTO */
+        h1, h2, h3, h4, p, span {
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7) !important;
+        }
+        
+        /* ESTILO PARA O CONTEÚDO DEVIDO AOS FOGOS EM PRIMEIRO PLANO */
+        .content-wrapper > * {
+            position: relative;
+            z-index: 11;
         }
     </style>
 </head>
 <body>
-    <!-- Canvas para fogos de artifício -->
+    <!-- FOGOS EM PRIMEIRO PLANO - Z-INDEX MAIS ALTO -->
     <canvas id="fireworksCanvas"></canvas>
-    
-    <!-- Overlay de brilho -->
-    <div class="light-overlay" id="lightOverlay"></div>
-    
-    <!-- Contador de confirmações -->
-    <div class="confirmation-counter animate-fade-in">
-        <span class="counter-number" id="confirmationCount">0</span>
-        <span class="counter-label">Confirm.</span>
-    </div>
 
     <div class="content-wrapper">
         <!-- Header -->
-        <section class="header-section">
-            <div class="age-badge pulse">🎉 25 ANOS 🎉</div>
+        <section class="header-section animate-fade-in">
+            <div class="header-glow"></div>
+            <div class="age-badge">🎉 25 ANOS 🎉</div>
             <h1 class="main-title">Engels Eduardo Cenci</h1>
-            <p class="subtitle">Celebrando um quarto de século de vida!</p>
+            <p class="subtitle">Uma celebração especial do meu aniversário</p>
             
-            <div class="info-badges">
-                <div class="info-badge animate-fade-in" style="animation-delay: 0.1s">
-                    <i class="fas fa-calendar-day"></i>
-                    <span>5 de Fevereiro</span>
-                </div>
-                <div class="info-badge animate-fade-in" style="animation-delay: 0.2s">
-                    <i class="fas fa-clock"></i>
-                    <span>20:00 Horas</span>
-                </div>
-                <div class="info-badge animate-fade-in" style="animation-delay: 0.3s">
-                    <i class="fas fa-home"></i>
-                    <span>Minha Casa</span>
+            <div class="row justify-content-center mt-4">
+                <div class="col-md-8">
+                    <div class="info-badge animate-fade-in" style="animation-delay: 0.1s">
+                        <i class="fas fa-calendar-day"></i>
+                        <span>5 de Fevereiro de 2024</span>
+                    </div>
+                    <div class="info-badge animate-fade-in" style="animation-delay: 0.2s">
+                        <i class="fas fa-clock"></i>
+                        <span>Às 20:00 horas</span>
+                    </div>
+                    <div class="info-badge animate-fade-in" style="animation-delay: 0.3s">
+                        <i class="fas fa-home"></i>
+                        <span>Na minha casa</span>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Conteúdo Principal -->
         <div class="container">
-            <!-- Informações -->
+            <!-- Sobre o Evento -->
             <div class="row">
-                <div class="col-12 mb-3">
+                <div class="col-12 mb-4">
                     <div class="info-card animate-fade-in" style="animation-delay: 0.4s">
+                        <div class="card-icon">
+                            <i class="fas fa-glass-cheers"></i>
+                        </div>
+                        <h3 class="card-title">Sobre a Celebração</h3>
+                        <p>
+                            Estou comemorando 25 anos de vida e quero compartilhar este momento especial com você! 
+                            Será uma noite de alegria, boa comida e ótima companhia.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Detalhes do Evento -->
+            <div class="row">
+                <div class="col-12 mb-4">
+                    <div class="info-card animate-fade-in" style="animation-delay: 0.5s">
                         <div class="card-icon">
                             <i class="fas fa-utensils"></i>
                         </div>
-                        <h3 class="card-title">Jantar Comemorativo</h3>
-                        <p>Buffet especial com pratos selecionados, bebidas e um ambiente preparado para uma noite inesquecível.</p>
+                        <h3 class="card-title">Jantar Especial</h3>
+                        <p>
+                            Preparei um buffet especial com pratos deliciosos e bebidas para celebrarmos juntos. 
+                            Haverá opções para todos os gostos!
+                        </p>
                     </div>
                 </div>
                 
-                <div class="col-12 mb-3">
-                    <div class="info-card animate-fade-in" style="animation-delay: 0.5s">
+                <div class="col-12 mb-4">
+                    <div class="info-card animate-fade-in" style="animation-delay: 0.6s">
                         <div class="card-icon">
                             <i class="fas fa-music"></i>
                         </div>
                         <h3 class="card-title">Música e Ambiente</h3>
-                        <p>Playlist personalizada com os melhores hits para dançar e celebrar esta data especial.</p>
-                    </div>
-                </div>
-                
-                <div class="col-12 mb-3">
-                    <div class="info-card animate-fade-in" style="animation-delay: 0.6s">
-                        <div class="card-icon">
-                            <i class="fas fa-glass-cheers"></i>
-                        </div>
-                        <h3 class="card-title">Momento Especial</h3>
-                        <p>Celebração dos 25 anos com amigos e familiares. Uma noite para guardar na memória!</p>
+                        <p>
+                            Playlist personalizada para dançar e celebrar. O ambiente estará decorado especialmente 
+                            para tornar esta noite inesquecível.
+                        </p>
                     </div>
                 </div>
             </div>
             
-            <!-- Confirmação -->
-            <div class="confirmation-section animate-fade-in" style="animation-delay: 0.7s">
-                <h3 class="card-title mb-3">Confirme sua presença!</h3>
-                <p>Sua presença é o melhor presente! Me avise que você vem para eu me preparar para esta noite especial.</p>
+            <!-- Informações Importantes -->
+            <div class="important-section animate-fade-in" style="animation-delay: 0.7s">
+                <h3 class="important-title">📋 Informações Importantes</h3>
                 
-                <a href="https://wa.me/5551984238876?text=Olá%20Engels!%20Confirmo%20minha%20presença%20no%20seu%20aniversário%20de%2025%20anos%20dia%205%20de%20fevereiro!"
-                   class="whatsapp-btn glow"
-                   id="whatsappBtn"
-                   target="_blank">
-                    <i class="fab fa-whatsapp"></i>
-                    Confirmar no WhatsApp
-                </a>
+                <div class="info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>
+                        <strong>Local:</strong> Minha residência. O endereço completo será enviado pessoalmente.
+                    </span>
+                </div>
                 
-                <p class="mt-3 small" style="opacity: 0.8;">
-                    <i class="fas fa-info-circle"></i> Você será redirecionado para o WhatsApp
-                </p>
+                <div class="info-item">
+                    <i class="fas fa-gift"></i>
+                    <span>
+                        <strong>Presentes:</strong> Sua presença é o melhor presente! Mas se quiser trazer algo, 
+                        boa energia e alegria são sempre bem-vindas.
+                    </span>
+                </div>
+                
+                <div class="info-item">
+                    <i class="fas fa-car"></i>
+                    <span>
+                        <strong>Estacionamento:</strong> Há vagas disponíveis na rua. Pedimos atenção aos 
+                        locais permitidos para estacionar.
+                    </span>
+                </div>
+                
+                <div class="info-item">
+                    <i class="fas fa-tshirt"></i>
+                    <span>
+                        <strong>Traje:</strong> Venha confortável e à vontade! O importante é estar presente 
+                        para celebrar juntos.
+                    </span>
+                </div>
             </div>
             
-            <!-- Informações Adicionais -->
+            <!-- Mensagem Final -->
             <div class="row mt-4">
                 <div class="col-12">
                     <div class="info-card">
-                        <h4 class="card-title mb-3">📍 Localização</h4>
-                        <p>O evento será na minha residência. O endereço completo será enviado via WhatsApp após a confirmação.</p>
-                        
-                        <div class="mt-4">
-                            <h5 class="mb-2">📝 Informações Importantes</h5>
-                            <div class="d-flex align-items-start mb-2">
-                                <i class="fas fa-gift text-warning mt-1 me-2"></i>
-                                <span><strong>Presentes:</strong> Sua presença já é um presente! Mas se quiser trazer algo, boas energias são sempre bem-vindas.</span>
-                            </div>
-                            <div class="d-flex align-items-start mb-2">
-                                <i class="fas fa-car text-info mt-1 me-2"></i>
-                                <span><strong>Estacionamento:</strong> Há vagas disponíveis na rua. Pedimos atenção aos locais permitidos.</span>
-                            </div>
-                            <div class="d-flex align-items-start">
-                                <i class="fas fa-tshirt text-primary mt-1 me-2"></i>
-                                <span><strong>Traje:</strong> Venha confortável e feliz! O importante é celebrar junto.</span>
-                            </div>
+                        <div class="card-icon" style="background: linear-gradient(45deg, #00ff88, #0080ff);">
+                            <i class="fas fa-cake"></i>
                         </div>
+                        <h3 class="card-title text-center">Venha Celebrar Comigo!</h3>
+                        <p class="text-center" style="font-size: 1.3rem;">
+                            Conto com sua presença para fazer deste aniversário ainda mais especial!
+                        </p>
+                        <p class="text-center mt-3" style="font-size: 1.2rem;">
+                            Com carinho,<br>
+                            <strong style="color: #ffd700;">Engels Eduardo Cenci</strong>
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
         
         <!-- Footer -->
-        <footer class="footer">
-            <p>Desenvolvido com ❤️ para celebrar 25 anos</p>
-            <p class="mt-2 small">Engels Eduardo Cenci • 5 de Fevereiro</p>
+        <footer class="footer animate-fade-in" style="animation-delay: 0.9s">
+            <p>Celebrando 25 anos de vida ✨</p>
+            <p class="mt-2">5 de Fevereiro • Uma noite para guardar na memória</p>
         </footer>
     </div>
     
-    <!-- Controles Mobile -->
+    <!-- Controles Mobile - ACIMA dos fogos -->
     <div class="mobile-controls">
-        <button class="control-btn active" id="toggleFireworksMobile" title="Ligar/Desligar fogos">
-            <i class="fas fa-fire" id="fireworksIconMobile"></i>
+        <button class="control-btn active" id="toggleFireworksBtn" title="Ligar/Desligar fogos">
+            <i class="fas fa-fire" id="fireworksIcon"></i>
         </button>
-        <button class="control-btn" id="launchFireworksMobile" title="Lançar fogos agora">
+        <button class="control-btn" id="launchFireworksBtn" title="Lançar fogos agora">
             <i class="fas fa-bolt"></i>
         </button>
     </div>
 
-    <!-- Bootstrap JS (só funcionalidades básicas) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     
     <script>
-        // SISTEMA DE FOGOS DE ARTIFÍCIO OTIMIZADO PARA MOBILE
-        class MobileFireworks {
+        // SISTEMA DE FOGOS DE ARTIFÍCIO - CORES NOVAS E SOBREPOSTOS
+        class NeonFireworks {
             constructor() {
                 this.canvas = document.getElementById('fireworksCanvas');
                 this.ctx = this.canvas.getContext('2d', { alpha: true });
@@ -544,33 +508,30 @@
                 this.fireworks = [];
                 this.isActive = true;
                 this.animationId = null;
-                this.lastFrameTime = 0;
-                this.fps = 60;
-                this.frameInterval = 1000 / this.fps;
                 
-                // Configurações otimizadas para mobile
-                this.config = {
-                    maxParticles: 180,
-                    maxFireworks: 6,
-                    gravity: 0.12, // Mais gravidade para queda mais realista
-                    wind: 0.03,
-                    particleFadeSpeed: 0.02,
-                    trailLength: 6
-                };
-                
-                // Cores vibrantes e realistas
+                // NOVAS CORES - PALETA NEON MODERNA
                 this.colors = [
-                    '#FF5252', // Vermelho vivo
-                    '#4FC3F7', // Azul brilhante
-                    '#69F0AE', // Verde vibrante
-                    '#FFD740', // Amarelo ouro
-                    '#FF4081', // Rosa forte
-                    '#7C4DFF', // Roxo intenso
-                    '#FF6E40', // Laranja queimado
-                    '#18FFFF', // Ciano brilhante
-                    '#FFEA00', // Amarelo neon
-                    '#00E676'  // Verde neon
+                    '#ff0080', // Rosa neon
+                    '#8000ff', // Roxo neon
+                    '#00d4ff', // Azul ciano
+                    '#00ff88', // Verde limão
+                    '#ff8a00', // Laranja
+                    '#ffd700', // Amarelo ouro
+                    '#ff00ff', // Magenta
+                    '#00ffff', // Ciano
+                    '#ff4444', // Vermelho
+                    '#88ff00'  // Verde neon
                 ];
+                
+                // Configurações para visibilidade máxima
+                this.config = {
+                    maxParticles: 300,
+                    maxFireworks: 10,
+                    gravity: 0.1,
+                    wind: 0.01,
+                    particleSize: 4,
+                    trailLength: 10
+                };
                 
                 this.init();
             }
@@ -583,60 +544,33 @@
             }
             
             resizeCanvas() {
-                const dpr = Math.min(window.devicePixelRatio || 1, 2); // Limitar DPR para performance
-                const rect = this.canvas.getBoundingClientRect();
-                
-                this.canvas.width = rect.width * dpr;
-                this.canvas.height = rect.height * dpr;
-                
-                this.ctx.scale(dpr, dpr);
-                this.canvas.style.width = rect.width + 'px';
-                this.canvas.style.height = rect.height + 'px';
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
             }
             
             startAnimation() {
-                const animate = (currentTime) => {
+                const animate = () => {
                     this.animationId = requestAnimationFrame(animate);
-                    
-                    // Controlar FPS para economizar bateria
-                    const deltaTime = currentTime - this.lastFrameTime;
-                    if (deltaTime < this.frameInterval) return;
-                    
-                    this.lastFrameTime = currentTime - (deltaTime % this.frameInterval);
-                    
-                    // Limpar canvas com efeito de rastro sutil
-                    this.ctx.fillStyle = 'rgba(15, 23, 42, 0.12)';
-                    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-                    
-                    // Atualizar e desenhar
-                    this.update(currentTime);
+                    this.update();
                     this.draw();
                 };
-                
                 this.animationId = requestAnimationFrame(animate);
             }
             
-            update(currentTime) {
-                // Limitar partículas para evitar travamento
-                if (this.particles.length > this.config.maxParticles) {
-                    this.particles.splice(0, this.particles.length - this.config.maxParticles);
-                }
-                
-                // Atualizar fogos subindo
+            update() {
+                // Atualizar fogos
                 for (let i = this.fireworks.length - 1; i >= 0; i--) {
                     const fw = this.fireworks[i];
                     
-                    // Física realista com resistência do ar
-                    fw.velocity.y -= fw.speed * 0.06;
-                    fw.x += Math.sin(fw.angle) * 0.6;
+                    fw.velocity.y -= 0.05;
                     fw.y += fw.velocity.y;
+                    fw.x += Math.sin(fw.angle) * 0.8;
                     
-                    // Adicionar partículas de rastro (mais visíveis)
-                    if (Math.random() > 0.4) {
-                        this.addTrailParticle(fw.x, fw.y, fw.color);
-                    }
+                    // Rastro
+                    fw.trail.push({x: fw.x, y: fw.y});
+                    if (fw.trail.length > this.config.trailLength) fw.trail.shift();
                     
-                    // Explodir no ponto certo
+                    // Explodir
                     if (fw.velocity.y >= 0 || fw.y <= fw.targetY) {
                         this.explodeFirework(fw);
                         this.fireworks.splice(i, 1);
@@ -647,101 +581,92 @@
                 for (let i = this.particles.length - 1; i >= 0; i--) {
                     const p = this.particles[i];
                     
-                    // Física mais realista
-                    p.velocity.x += (Math.random() - 0.5) * 0.08;
                     p.velocity.y += this.config.gravity;
-                    p.x += p.velocity.x;
+                    p.x += p.velocity.x + this.config.wind;
                     p.y += p.velocity.y;
                     
-                    // Efeito de desvanecimento
-                    p.alpha -= this.config.particleFadeSpeed * p.fadeMultiplier;
-                    p.size *= 0.96;
+                    p.alpha -= 0.015;
+                    p.size *= 0.97;
                     
-                    // Remover partículas desvanecidas
-                    if (p.alpha <= 0 || p.size <= 0.2) {
+                    if (p.alpha <= 0 || p.size <= 0.1) {
                         this.particles.splice(i, 1);
                     }
                 }
             }
             
             draw() {
+                // Fundo preto com transparência para rastro
+                this.ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                
                 this.ctx.globalCompositeOperation = 'lighter';
                 
-                // Desenhar partículas com gradiente realista
+                // Desenhar partículas
                 this.particles.forEach(p => {
                     if (p.alpha > 0) {
-                        // Gradiente radial para brilho
+                        // Gradiente para brilho neon
                         const gradient = this.ctx.createRadialGradient(
                             p.x, p.y, 0,
-                            p.x, p.y, p.size
+                            p.x, p.y, p.size * 2
                         );
-                        
                         gradient.addColorStop(0, p.color + 'FF');
-                        gradient.addColorStop(0.7, p.color + 'CC');
+                        gradient.addColorStop(0.5, p.color + 'AA');
                         gradient.addColorStop(1, p.color + '00');
                         
                         this.ctx.beginPath();
                         this.ctx.fillStyle = gradient;
+                        this.ctx.globalAlpha = p.alpha;
                         this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
                         this.ctx.fill();
                         
-                        // Núcleo branco brilhante
-                        if (p.size > 1.5) {
-                            this.ctx.beginPath();
-                            this.ctx.fillStyle = '#FFFFFF';
-                            this.ctx.globalAlpha = p.alpha * 0.7;
-                            this.ctx.arc(p.x, p.y, p.size * 0.3, 0, Math.PI * 2);
-                            this.ctx.fill();
-                            this.ctx.globalAlpha = 1;
-                        }
+                        // Núcleo branco
+                        this.ctx.beginPath();
+                        this.ctx.fillStyle = '#FFFFFF';
+                        this.ctx.globalAlpha = p.alpha * 0.7;
+                        this.ctx.arc(p.x, p.y, p.size * 0.3, 0, Math.PI * 2);
+                        this.ctx.fill();
+                        
+                        this.ctx.globalAlpha = 1;
                     }
                 });
                 
-                // Desenhar fogos subindo com rastro
+                // Desenhar fogos subindo
                 this.fireworks.forEach(fw => {
-                    // Corpo principal com gradiente
+                    // Rastro
+                    fw.trail.forEach((point, index) => {
+                        const alpha = index / fw.trail.length * 0.7;
+                        this.ctx.beginPath();
+                        this.ctx.fillStyle = fw.color;
+                        this.ctx.globalAlpha = alpha;
+                        this.ctx.arc(point.x, point.y, 2 * (index / fw.trail.length), 0, Math.PI * 2);
+                        this.ctx.fill();
+                    });
+                    
+                    // Corpo principal
                     const gradient = this.ctx.createLinearGradient(
                         fw.x, fw.y,
-                        fw.x, fw.y + 10
+                        fw.x, fw.y + 15
                     );
-                    
                     gradient.addColorStop(0, fw.color + 'FF');
-                    gradient.addColorStop(0.5, fw.color + 'AA');
                     gradient.addColorStop(1, fw.color + '00');
                     
                     this.ctx.beginPath();
                     this.ctx.fillStyle = gradient;
-                    this.ctx.ellipse(fw.x, fw.y, 2.5, 9, 0, 0, Math.PI * 2);
+                    this.ctx.globalAlpha = 0.9;
+                    this.ctx.ellipse(fw.x, fw.y, 3, 12, 0, 0, Math.PI * 2);
                     this.ctx.fill();
                     
-                    // Brilho intenso
+                    // Brilho
                     this.ctx.beginPath();
                     this.ctx.fillStyle = '#FFFFFF';
-                    this.ctx.globalAlpha = 0.9;
-                    this.ctx.arc(fw.x, fw.y, 2, 0, Math.PI * 2);
+                    this.ctx.globalAlpha = 1;
+                    this.ctx.arc(fw.x, fw.y, 3, 0, Math.PI * 2);
                     this.ctx.fill();
+                    
                     this.ctx.globalAlpha = 1;
                 });
                 
                 this.ctx.globalCompositeOperation = 'source-over';
-            }
-            
-            addTrailParticle(x, y, color) {
-                if (this.particles.length >= this.config.maxParticles) return;
-                
-                this.particles.push({
-                    x: x + (Math.random() - 0.5) * 3,
-                    y: y + (Math.random() - 0.5) * 3,
-                    color: color,
-                    size: 1.2 + Math.random() * 1.8,
-                    velocity: {
-                        x: (Math.random() - 0.5) * 0.6,
-                        y: Math.random() * 0.8
-                    },
-                    alpha: 0.6 + Math.random() * 0.4,
-                    life: 1,
-                    fadeMultiplier: 0.8 + Math.random() * 0.4
-                });
             }
             
             createFirework(x, targetY, color) {
@@ -752,110 +677,48 @@
                     y: this.canvas.height,
                     targetY: targetY,
                     color: color,
-                    speed: 2 + Math.random() * 1.5,
-                    velocity: { x: 0, y: -9 - Math.random() * 4 },
+                    speed: 2 + Math.random() * 2,
+                    velocity: { x: 0, y: -10 - Math.random() * 4 },
                     angle: Math.random() * Math.PI * 2,
                     trail: []
                 });
-                
-                // Efeito de brilho mais forte
-                this.createLightEffect(x, targetY, color);
-            }
-            
-            createLightEffect(x, y, color) {
-                const overlay = document.getElementById('lightOverlay');
-                overlay.style.setProperty('--x', `${x}px`);
-                overlay.style.setProperty('--y', `${y}px`);
-                overlay.style.opacity = '0.8'; // Mais visível
-                
-                setTimeout(() => {
-                    overlay.style.opacity = '0';
-                }, 1000);
             }
             
             explodeFirework(fw) {
-                const isMobile = window.innerWidth < 768;
-                const particleCount = isMobile ? 70 : 120; // Mais partículas
-                const explosionPower = 3 + Math.random() * 2;
-                
-                // 25% de chance de efeito especial para 25 anos
-                if (Math.random() > 0.75) {
-                    this.createNumberEffect(fw.x, fw.y);
-                }
-                
-                // Tipos diferentes de explosão
-                const explosionType = Math.random();
+                const particleCount = 150;
+                const explosionPower = 4 + Math.random() * 2;
                 
                 for (let i = 0; i < particleCount; i++) {
                     if (this.particles.length >= this.config.maxParticles) break;
                     
-                    let angle, speed;
-                    
-                    if (explosionType > 0.7) {
-                        // Explosão em anel
-                        angle = (i / particleCount) * Math.PI * 2;
-                        speed = explosionPower * 0.8;
-                    } else if (explosionType > 0.4) {
-                        // Explosão esférica
-                        angle = Math.random() * Math.PI * 2;
-                        speed = explosionPower * (0.5 + Math.random() * 0.5);
-                    } else {
-                        // Explosão em estrela
-                        const arms = 5 + Math.floor(Math.random() * 3);
-                        angle = (Math.floor(i / (particleCount / arms)) / arms) * Math.PI * 2;
-                        speed = explosionPower * (0.7 + Math.random() * 0.3);
-                    }
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = explosionPower * (0.5 + Math.random() * 0.5);
                     
                     this.particles.push({
                         x: fw.x,
                         y: fw.y,
                         color: fw.color,
-                        size: 2.5 + Math.random() * 3.5,
+                        size: this.config.particleSize + Math.random() * 3,
                         velocity: {
                             x: Math.cos(angle) * speed,
                             y: Math.sin(angle) * speed
                         },
-                        alpha: 1,
-                        life: 1,
-                        fadeMultiplier: 0.9 + Math.random() * 0.2
+                        alpha: 0.9 + Math.random() * 0.1
                     });
                 }
                 
-                // Partículas especiais de brilho
-                for (let i = 0; i < 15; i++) {
+                // Partículas brancas para flash
+                for (let i = 0; i < 30; i++) {
                     this.particles.push({
                         x: fw.x,
                         y: fw.y,
                         color: '#FFFFFF',
-                        size: 1 + Math.random() * 2,
-                        velocity: {
-                            x: (Math.random() - 0.5) * 2,
-                            y: (Math.random() - 0.5) * 2
-                        },
-                        alpha: 0.8,
-                        life: 1,
-                        fadeMultiplier: 1.2
-                    });
-                }
-            }
-            
-            createNumberEffect(x, y) {
-                // Efeito especial para 25 anos
-                const starCount = 25; // 25 partículas para 25 anos
-                
-                for (let i = 0; i < starCount; i++) {
-                    this.particles.push({
-                        x: x,
-                        y: y,
-                        color: '#FFD700', // Dourado
-                        size: 2 + Math.random() * 2,
+                        size: 2 + Math.random() * 3,
                         velocity: {
                             x: (Math.random() - 0.5) * 4,
                             y: (Math.random() - 0.5) * 4
                         },
-                        alpha: 1,
-                        life: 1,
-                        fadeMultiplier: 0.7
+                        alpha: 0.8
                     });
                 }
             }
@@ -863,250 +726,79 @@
             launchRandomFirework() {
                 if (!this.isActive || this.fireworks.length >= this.config.maxFireworks) return;
                 
-                const margin = 40;
+                const margin = 80;
                 const x = margin + Math.random() * (this.canvas.width - 2 * margin);
-                const targetY = 60 + Math.random() * (this.canvas.height * 0.6);
+                const targetY = 100 + Math.random() * (this.canvas.height * 0.4);
                 const color = this.colors[Math.floor(Math.random() * this.colors.length)];
                 
                 this.createFirework(x, targetY, color);
             }
             
             launchInitialFireworks() {
-                // Sequência inicial de fogos
-                for (let i = 0; i < 4; i++) {
-                    setTimeout(() => {
-                        this.launchRandomFirework();
-                    }, i * 600);
+                for (let i = 0; i < 8; i++) {
+                    setTimeout(() => this.launchRandomFirework(), i * 400);
                 }
             }
             
             launchCelebration() {
-                if (!this.isActive) return;
-                
-                const count = window.innerWidth < 768 ? 5 : 8;
-                const delay = 180;
-                
+                const count = 12;
                 for (let i = 0; i < count; i++) {
-                    setTimeout(() => {
-                        this.launchRandomFirework();
-                    }, i * delay);
+                    setTimeout(() => this.launchRandomFirework(), i * 120);
                 }
             }
             
             launchNow() {
-                if (!this.isActive) return;
-                
-                const isMobile = window.innerWidth < 768;
-                const count = isMobile ? 4 : 6;
-                const delay = 120;
-                
+                const count = window.innerWidth < 768 ? 6 : 10;
                 for (let i = 0; i < count; i++) {
-                    setTimeout(() => {
-                        this.launchRandomFirework();
-                    }, i * delay);
+                    setTimeout(() => this.launchRandomFirework(), i * 80);
                 }
             }
             
             toggle() {
                 this.isActive = !this.isActive;
-                
                 if (!this.isActive) {
-                    // Limpar rapidamente
                     this.particles = [];
                     this.fireworks = [];
                 } else {
-                    // Reativar com fogos
-                    setTimeout(() => this.launchNow(), 300);
+                    setTimeout(() => this.launchNow(), 200);
                 }
-                
                 return this.isActive;
             }
         }
 
-        // SISTEMA DO CONVITE MOBILE
-        class MobileBirthdayInvite {
-            constructor() {
-                this.confirmationCount = parseInt(localStorage.getItem('birthdayConfirmations')) || 0;
-                this.fireworksSystem = null;
-                this.init();
-            }
-            
-            init() {
-                // Inicializar fogos
-                this.fireworksSystem = new MobileFireworks();
-                
-                // Elementos DOM
-                this.confirmationCountElement = document.getElementById('confirmationCount');
-                this.toggleFireworksBtn = document.getElementById('toggleFireworksMobile');
-                this.launchFireworksBtn = document.getElementById('launchFireworksMobile');
-                this.fireworksIconMobile = document.getElementById('fireworksIconMobile');
-                this.whatsappBtn = document.getElementById('whatsappBtn');
-                
-                // Atualizar contador
-                this.updateConfirmationCount();
-                
-                // Configurar event listeners para mobile
-                this.setupMobileEventListeners();
-                
-                // Animações iniciais
-                this.setupAnimations();
-                
-                // Sistema de sincronização
-                this.setupSync();
-                
-                // Performance mobile
-                this.setupPerformance();
-            }
-            
-            updateConfirmationCount() {
-                this.confirmationCountElement.textContent = this.confirmationCount;
-                
-                // Animação sutil
-                this.confirmationCountElement.classList.add('pulse');
-                setTimeout(() => {
-                    this.confirmationCountElement.classList.remove('pulse');
-                }, 500);
-            }
-            
-            setupMobileEventListeners() {
-                // Touch events otimizados para mobile
-                this.toggleFireworksBtn.addEventListener('touchstart', (e) => {
-                    e.preventDefault();
-                    const isActive = this.fireworksSystem.toggle();
-                    this.fireworksIconMobile.className = isActive ? 'fas fa-fire' : 'fas fa-fire-extinguisher';
-                    this.toggleFireworksBtn.classList.toggle('active', isActive);
-                    
-                    // Feedback tátil
-                    this.toggleFireworksBtn.style.transform = 'scale(0.9)';
-                    setTimeout(() => {
-                        this.toggleFireworksBtn.style.transform = '';
-                    }, 100);
-                }, { passive: false });
-                
-                this.launchFireworksBtn.addEventListener('touchstart', (e) => {
-                    e.preventDefault();
-                    this.fireworksSystem.launchNow();
-                    
-                    // Feedback tátil
-                    this.launchFireworksBtn.style.transform = 'scale(0.9)';
-                    setTimeout(() => {
-                        this.launchFireworksBtn.style.transform = '';
-                    }, 100);
-                }, { passive: false });
-                
-                // Clique normal para desktop
-                this.toggleFireworksBtn.addEventListener('click', (e) => {
-                    if (!('ontouchstart' in window)) {
-                        const isActive = this.fireworksSystem.toggle();
-                        this.fireworksIconMobile.className = isActive ? 'fas fa-fire' : 'fas fa-fire-extinguisher';
-                        this.toggleFireworksBtn.classList.toggle('active', isActive);
-                    }
-                });
-                
-                this.launchFireworksBtn.addEventListener('click', (e) => {
-                    if (!('ontouchstart' in window)) {
-                        this.fireworksSystem.launchNow();
-                    }
-                });
-                
-                // Confirmação via WhatsApp
-                this.whatsappBtn.addEventListener('click', () => {
-                    this.incrementConfirmation();
-                    
-                    // Disparar fogos de celebração
-                    setTimeout(() => {
-                        this.fireworksSystem.launchCelebration();
-                    }, 300);
-                });
-            }
-            
-            incrementConfirmation() {
-                this.confirmationCount++;
-                localStorage.setItem('birthdayConfirmations', this.confirmationCount);
-                this.updateConfirmationCount();
-                
-                // Feedback visual
-                const counter = document.querySelector('.confirmation-counter');
-                counter.style.transform = 'scale(1.2)';
-                setTimeout(() => {
-                    counter.style.transform = 'scale(1)';
-                }, 300);
-            }
-            
-            setupAnimations() {
-                // Animar elementos com delay
-                const animatedElements = document.querySelectorAll('.animate-fade-in');
-                animatedElements.forEach((el, index) => {
-                    setTimeout(() => {
-                        el.style.opacity = '1';
-                        el.style.transform = 'translateY(0)';
-                    }, index * 100);
-                });
-            }
-            
-            setupSync() {
-                // Sincronizar entre abas/dispositivos
-                setInterval(() => {
-                    try {
-                        const saved = parseInt(localStorage.getItem('birthdayConfirmations')) || 0;
-                        if (saved !== this.confirmationCount) {
-                            this.confirmationCount = saved;
-                            this.updateConfirmationCount();
-                        }
-                    } catch (e) {
-                        console.error('Erro na sincronização:', e);
-                    }
-                }, 2000);
-            }
-            
-            setupPerformance() {
-                // Otimizar performance em mobile
-                let lastTap = 0;
-                
-                document.addEventListener('touchstart', (e) => {
-                    const currentTime = new Date().getTime();
-                    const tapLength = currentTime - lastTap;
-                    
-                    if (tapLength < 500 && tapLength > 0) {
-                        e.preventDefault(); // Prevenir double-tap zoom
-                    }
-                    lastTap = currentTime;
-                }, { passive: false });
-                
-                // Pausar animações quando não visível
-                document.addEventListener('visibilitychange', () => {
-                    if (document.hidden) {
-                        this.fireworksSystem.isActive = false;
-                    } else {
-                        this.fireworksSystem.isActive = true;
-                        setTimeout(() => {
-                            this.fireworksSystem.launchNow();
-                        }, 500);
-                    }
-                });
-                
-                // Disparar fogos aleatórios periodicamente
-                setInterval(() => {
-                    if (this.fireworksSystem.isActive && Math.random() > 0.6) {
-                        this.fireworksSystem.launchRandomFirework();
-                    }
-                }, 4000);
-            }
-        }
-
-        // Inicializar quando o DOM estiver pronto
+        // INICIALIZAÇÃO
         document.addEventListener('DOMContentLoaded', () => {
-            const invite = new MobileBirthdayInvite();
+            const fireworks = new NeonFireworks();
             
-            // Prevenir comportamentos padrão
-            document.addEventListener('touchmove', (e) => {
-                if (e.scale !== 1) {
-                    e.preventDefault();
+            const toggleBtn = document.getElementById('toggleFireworksBtn');
+            const launchBtn = document.getElementById('launchFireworksBtn');
+            const icon = document.getElementById('fireworksIcon');
+            
+            // Controles
+            toggleBtn.addEventListener('click', () => {
+                const isActive = fireworks.toggle();
+                icon.className = isActive ? 'fas fa-fire' : 'fas fa-fire-extinguisher';
+                toggleBtn.classList.toggle('active', isActive);
+            });
+            
+            launchBtn.addEventListener('click', () => {
+                fireworks.launchNow();
+            });
+            
+            // Fogos aleatórios
+            setInterval(() => {
+                if (fireworks.isActive && Math.random() > 0.4) {
+                    fireworks.launchRandomFirework();
                 }
-            }, { passive: false });
+            }, 2500);
             
-            // Melhorar experiência de toque
-            document.addEventListener('touchstart', () => {}, { passive: true });
+            // Animações de entrada
+            setTimeout(() => {
+                document.querySelectorAll('.animate-fade-in').forEach(el => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                });
+            }, 100);
         });
     </script>
 </body>
