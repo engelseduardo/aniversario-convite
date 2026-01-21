@@ -2,56 +2,45 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Convite de Aniversário - Engels</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Reset e configurações globais */
+        /* RESET MOBILE-FIRST */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
         }
         
         :root {
-            --primary: rgba(124, 58, 237, 0.9);
-            --primary-light: rgba(124, 58, 237, 0.6);
-            --secondary: rgba(16, 185, 129, 0.9);
-            --secondary-light: rgba(16, 185, 129, 0.6);
-            --danger: rgba(239, 68, 68, 0.9);
-            --danger-light: rgba(239, 68, 68, 0.6);
-            --dark: rgba(15, 23, 42, 0.85);
-            --darker: rgba(2, 6, 23, 0.9);
+            --primary: #7c3aed;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --dark: #0f172a;
             --light: #f8fafc;
-            --gray: rgba(100, 116, 139, 0.8);
-            --gray-light: rgba(203, 213, 225, 0.8);
-            --accent: rgba(245, 158, 11, 0.9);
-            --radius: 16px;
-            --shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+            --gray: #64748b;
+            --radius: 12px;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             --transition: all 0.3s ease;
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.05);
+            --glass: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
         }
         
         body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background: linear-gradient(135deg, var(--darker), var(--dark));
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
             color: var(--light);
             min-height: 100vh;
             line-height: 1.5;
             overflow-x: hidden;
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 15px;
             position: relative;
-            z-index: 10;
         }
         
-        /* Fogos de artifício canvas - MAIS VISÍVEL */
+        /* CANVAS OTIMIZADO PARA MOBILE */
         #fireworksCanvas {
             position: fixed;
             top: 0;
@@ -60,84 +49,73 @@
             height: 100%;
             pointer-events: none;
             z-index: 1;
+            display: block;
         }
         
-        /* Overlay de iluminação - MAIS FORTE */
+        /* OVERLAY DE BRILHO OTIMIZADO */
         .light-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), 
-                rgba(255, 215, 0, 0.25) 0%,
-                rgba(255, 140, 0, 0.2) 25%,
-                rgba(255, 0, 100, 0.15) 50%,
-                transparent 80%);
             pointer-events: none;
             z-index: 2;
             opacity: 0;
             transition: opacity 0.5s ease;
+            background: radial-gradient(
+                circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                rgba(255, 215, 0, 0.15) 0%,
+                rgba(255, 140, 0, 0.1) 25%,
+                transparent 60%
+            );
             mix-blend-mode: screen;
         }
         
-        /* Header transparente - MAIS TRANSPARENTE */
+        /* CONTAINER MOBILE-FIRST */
+        .container {
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 12px;
+            position: relative;
+            z-index: 10;
+            padding-bottom: 80px; /* Espaço para controles mobile */
+        }
+        
+        /* HEADER MOBILE */
         .header {
             text-align: center;
-            padding: 25px 15px;
-            background: var(--glass);
-            backdrop-filter: blur(15px);
+            padding: 20px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border-radius: var(--radius);
-            margin-bottom: 20px;
-            box-shadow: var(--shadow);
+            margin-bottom: 15px;
             border: 1px solid var(--glass-border);
             position: relative;
             overflow: hidden;
-            z-index: 5;
-        }
-        
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, 
-                rgba(124, 58, 237, 0.05) 0%, 
-                rgba(16, 185, 129, 0.03) 100%);
-            z-index: -1;
-        }
-        
-        .header-content {
-            position: relative;
-            z-index: 2;
         }
         
         .logo {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             margin-bottom: 10px;
             color: var(--light);
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 10px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
         
         .logo i {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 10px;
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px;
+            border-radius: 10px;
         }
         
         .header h1 {
-            font-size: 1.4rem;
-            margin-bottom: 6px;
-            color: var(--light);
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            font-size: 1.3rem;
+            margin-bottom: 5px;
             font-weight: 600;
         }
         
@@ -145,151 +123,86 @@
             font-size: 0.95rem;
             font-weight: 400;
             color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 12px;
-            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px;
         }
         
         .date-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(10px);
-            padding: 10px 18px;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 8px 16px;
             border-radius: 50px;
-            font-weight: 500;
-            margin-top: 8px;
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
             font-size: 0.9rem;
+            border: 1px solid var(--glass-border);
         }
         
-        /* Seções principais - MAIS TRANSPARENTES */
+        /* SEÇÕES MOBILE */
         .section {
-            background: var(--glass);
-            backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border-radius: var(--radius);
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow);
+            padding: 18px 15px;
+            margin-bottom: 15px;
             border: 1px solid var(--glass-border);
-            position: relative;
-            z-index: 5;
         }
         
         .section-title {
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             color: var(--secondary);
-            font-size: 1.2rem;
-            font-weight: 600;
+            font-size: 1.15rem;
         }
         
-        .section-title i {
-            background: rgba(16, 185, 129, 0.08);
-            padding: 8px;
-            border-radius: 10px;
-            border: 1px solid rgba(16, 185, 129, 0.1);
-        }
-        
-        /* Cards de informação */
+        /* INFO CARDS */
         .info-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        @media (min-width: 640px) {
-            .info-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            gap: 12px;
         }
         
         .info-card {
             background: rgba(30, 41, 59, 0.3);
-            backdrop-filter: blur(10px);
             border-radius: var(--radius);
-            padding: 18px;
+            padding: 15px;
             border: 1px solid var(--glass-border);
             transition: var(--transition);
         }
         
         .info-card:hover {
-            transform: translateY(-3px);
-            border-color: var(--primary-light);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
         }
         
         .info-card h3 {
             color: var(--light);
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 1.1rem;
-            font-weight: 500;
+            font-size: 1rem;
         }
         
-        .highlight {
-            color: var(--secondary);
-            font-weight: 600;
-            display: block;
-            margin: 8px 0;
-            font-size: 0.95rem;
-        }
-        
-        /* Presentes */
-        .gift-section {
-            margin-top: 20px;
-        }
-        
-        .gift-instructions {
-            background: rgba(245, 158, 11, 0.05);
-            border: 1px solid rgba(245, 158, 11, 0.1);
-            border-radius: var(--radius);
-            padding: 16px;
-            margin-bottom: 20px;
-            backdrop-filter: blur(10px);
-        }
-        
-        .gift-instructions h4 {
-            color: var(--accent);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 1.1rem;
-            font-weight: 500;
-        }
-        
+        /* PRESENTES */
         .gift-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 15px;
-        }
-        
-        @media (min-width: 640px) {
-            .gift-grid {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            }
+            gap: 12px;
         }
         
         .gift-card {
             background: rgba(30, 41, 59, 0.3);
-            backdrop-filter: blur(10px);
             border-radius: var(--radius);
-            padding: 18px;
+            padding: 15px;
             border: 1px solid var(--glass-border);
-            transition: var(--transition);
             position: relative;
         }
         
         .gift-card.reserved {
             border-color: var(--secondary);
-            background: rgba(16, 185, 129, 0.05);
+            background: rgba(16, 185, 129, 0.1);
         }
         
         .gift-card.reserved::after {
@@ -299,270 +212,90 @@
             right: 10px;
             background: var(--secondary);
             color: white;
-            padding: 4px 10px;
+            padding: 3px 8px;
             font-size: 0.7rem;
             font-weight: bold;
             border-radius: 4px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-            z-index: 2;
-        }
-        
-        .gift-card-header {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 15px;
         }
         
         .gift-info {
             display: flex;
             align-items: center;
             gap: 12px;
-        }
-        
-        .gift-card h4 {
-            color: var(--light);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 1.05rem;
-            flex: 1;
-            font-weight: 500;
+            margin-bottom: 15px;
         }
         
         .gift-icon {
-            background: rgba(124, 58, 237, 0.08);
-            width: 44px;
-            height: 44px;
+            background: rgba(124, 58, 237, 0.1);
+            width: 40px;
+            height: 40px;
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--primary);
-            font-size: 1.1rem;
             flex-shrink: 0;
-            border: 1px solid rgba(124, 58, 237, 0.1);
         }
         
         .btn-group {
             display: flex;
             gap: 10px;
-            width: 100%;
+        }
+        
+        .reserve-btn, .cancel-btn {
+            border: none;
+            padding: 12px 0;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex: 1;
+            font-size: 0.9rem;
         }
         
         .reserve-btn {
             background: var(--secondary);
             color: white;
-            border: none;
-            padding: 14px 0;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            flex: 1;
-            font-size: 0.95rem;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-        
-        .reserve-btn:hover {
-            background: var(--secondary);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
         }
         
         .cancel-btn {
             background: var(--danger);
             color: white;
-            border: none;
-            padding: 14px 0;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            flex: 1;
-            font-size: 0.95rem;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(239, 68, 68, 0.3);
         }
         
-        .cancel-btn:hover {
-            background: var(--danger);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
-        }
-        
-        .reservation-info {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid var(--glass-border);
-            font-size: 0.85rem;
-            color: var(--gray-light);
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        
-        .reservation-count {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.04);
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-weight: bold;
-            color: var(--secondary);
-            margin-left: 5px;
-        }
-        
-        /* Botão de confirmação */
-        .confirmation-section {
-            text-align: center;
-            padding: 25px;
-            background: linear-gradient(135deg, 
-                rgba(124, 58, 237, 0.05), 
-                rgba(16, 185, 129, 0.05));
-            border-radius: var(--radius);
-            margin-top: 20px;
-            backdrop-filter: blur(15px);
-            border: 1px solid var(--glass-border);
-            position: relative;
-            z-index: 5;
-        }
-        
-        .whatsapp-btn {
-            background: linear-gradient(135deg, #25D366, #128C7E);
-            color: white;
-            border: none;
-            padding: 16px 30px;
-            border-radius: 50px;
-            font-size: 1.05rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.2);
-            text-decoration: none;
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 300px;
-            justify-content: center;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(37, 211, 102, 0.3);
-        }
-        
-        .whatsapp-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(37, 211, 102, 0.3);
-        }
-        
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 20px 15px;
-            margin-top: 25px;
-            color: var(--gray);
-            font-size: 0.85rem;
-            border-top: 1px solid var(--glass-border);
-            position: relative;
-            z-index: 5;
-            backdrop-filter: blur(10px);
-            background: var(--glass);
-            border-radius: var(--radius);
-        }
-        
-        .footer p {
-            margin-bottom: 8px;
-        }
-        
-        .version {
-            color: var(--primary);
-            font-weight: 500;
-        }
-        
-        /* Contador de reservas mobile - MAIS TRANSPARENTE */
-        .reservation-counter-mobile {
-            position: fixed;
-            bottom: 70px;
-            right: 15px;
-            z-index: 100;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(15px);
-            border: 1px solid var(--glass-border);
-            border-radius: 50%;
-            width: 56px;
-            height: 56px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            transition: var(--transition);
-            cursor: pointer;
-        }
-        
-        .reservation-counter-mobile:hover {
-            transform: scale(1.08);
-            background: rgba(255, 255, 255, 0.12);
-        }
-        
-        .counter-number {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: var(--secondary);
-            line-height: 1;
-        }
-        
-        .counter-label {
-            font-size: 0.6rem;
-            color: var(--gray-light);
-            margin-top: 2px;
-        }
-        
-        /* Controle de fogos mobile - MAIS TRANSPARENTE */
+        /* CONTROLES MOBILE FIXOS */
         .mobile-controls {
             position: fixed;
-            bottom: 15px;
+            bottom: 0;
             left: 0;
             right: 0;
             z-index: 100;
             display: flex;
-            justify-content: center;
-            gap: 15px;
-            padding: 0 15px;
+            justify-content: space-around;
+            padding: 12px;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
         }
         
         .control-btn {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.1);
             border: 1px solid var(--glass-border);
             color: white;
-            width: 56px;
-            height: 56px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             cursor: pointer;
             transition: var(--transition);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            flex-shrink: 0;
-        }
-        
-        .control-btn:hover {
-            background: rgba(255, 255, 255, 0.14);
-            transform: translateY(-3px);
+            font-size: 1.1rem;
         }
         
         .control-btn.active {
@@ -575,103 +308,55 @@
             border-color: var(--accent);
         }
         
-        .control-btn.whatsapp {
-            background: #25D366;
-            border-color: #25D366;
-            width: auto;
-            padding: 0 20px;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            gap: 8px;
-        }
-        
-        /* Controles para desktop */
-        .desktop-controls {
+        /* CONTADOR MOBILE */
+        .reservation-counter-mobile {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 15px;
+            right: 15px;
             z-index: 100;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            align-items: flex-end;
+            align-items: center;
+            justify-content: center;
+            color: white;
         }
         
-        .desktop-fireworks-btn {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(15px);
-            border: 1px solid var(--glass-border);
+        .counter-number {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        
+        .counter-label {
+            font-size: 0.6rem;
+            color: var(--gray);
+        }
+        
+        /* BOTÃO WHATSAPP MOBILE */
+        .whatsapp-btn-mobile {
+            position: fixed;
+            bottom: 70px;
+            right: 15px;
+            z-index: 100;
+            background: #25D366;
             color: white;
+            border: none;
             padding: 12px 20px;
             border-radius: 50px;
+            font-weight: 600;
             cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .desktop-fireworks-btn:hover {
-            background: rgba(255, 255, 255, 0.14);
-            transform: translateY(-2px);
-        }
-        
-        .desktop-fireworks-btn.active {
-            background: var(--primary);
-            border-color: var(--primary);
-        }
-        
-        .desktop-fireworks-btn.launch {
-            background: var(--accent);
-            border-color: var(--accent);
-        }
-        
-        /* Badge para desktop */
-        .reservation-counter-desktop {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 100;
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius);
-            padding: 15px;
-            color: white;
-            font-size: 0.9rem;
-            max-width: 180px;
-            box-shadow: var(--shadow);
-        }
-        
-        .reservation-counter-desktop h4 {
-            color: var(--secondary);
-            margin-bottom: 10px;
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 1rem;
-            font-weight: 500;
-        }
-        
-        .desktop-counter-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--secondary);
-            text-align: center;
-            display: block;
-            line-height: 1;
-            margin: 10px 0;
-        }
-        
-        /* Utilitários */
-        .hidden {
-            display: none !important;
-        }
-        
-        .pulse {
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
             animation: pulse 2s infinite;
         }
         
@@ -681,254 +366,130 @@
             100% { transform: scale(1); }
         }
         
-        /* Efeitos de brilho */
-        @keyframes glow {
-            0%, 100% { 
-                filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.3));
-                transform: scale(1);
-            }
-            50% { 
-                filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.6));
-                transform: scale(1.03);
-            }
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 20px 15px;
+            color: var(--gray);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--glass-border);
+            margin-top: 20px;
         }
         
-        .glow {
-            animation: glow 3s infinite;
-        }
-        
-        /* Animação de confirmação */
-        @keyframes celebrate {
-            0% { transform: scale(1); }
-            25% { transform: scale(1.15); }
-            50% { transform: scale(1); }
-            75% { transform: scale(1.08); }
-            100% { transform: scale(1); }
-        }
-        
-        .celebrate {
-            animation: celebrate 0.4s ease;
-        }
-        
-        /* Animação de cancelamento */
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-4px); }
-            75% { transform: translateX(4px); }
-        }
-        
-        .shake {
-            animation: shake 0.4s ease;
-        }
-        
-        /* Responsividade */
-        @media (min-width: 1024px) {
-            .reservation-counter-mobile {
-                display: none;
-            }
-            
-            .mobile-controls {
-                display: none;
-            }
-            
-            .whatsapp-btn.mobile-only {
-                display: none;
-            }
-            
-            .desktop-controls {
-                display: flex;
-            }
-        }
-        
-        @media (max-width: 1023px) {
-            .reservation-counter-desktop {
-                display: none;
-            }
-            
-            .desktop-controls {
-                display: none;
-            }
-            
-            .whatsapp-btn.desktop-only {
-                display: none;
-            }
-            
-            body {
-                padding-bottom: 80px;
-            }
-        }
-        
-        /* Responsividade adicional para mobile */
-        @media (max-width: 640px) {
-            body {
-                padding-bottom: 80px;
-            }
-            
+        /* RESPONSIVIDADE PARA TABLET/DESKTOP */
+        @media (min-width: 640px) {
             .container {
-                padding: 12px;
+                max-width: 600px;
+                padding: 20px;
             }
             
-            .header {
-                padding: 20px 12px;
-                margin-bottom: 15px;
+            .info-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
             
-            .logo {
+            .gift-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .header h1 {
                 font-size: 1.5rem;
             }
             
-            .logo i {
-                padding: 8px;
-            }
-            
-            .header h1 {
-                font-size: 1.3rem;
-            }
-            
-            .header h2 {
-                font-size: 0.9rem;
-            }
-            
-            .date-badge {
-                padding: 8px 16px;
-                font-size: 0.85rem;
-            }
-            
-            .section {
-                padding: 18px 16px;
-                margin-bottom: 15px;
-            }
-            
-            .section-title {
-                font-size: 1.15rem;
-            }
-            
-            .info-card {
-                padding: 16px;
-            }
-            
-            .gift-instructions {
-                padding: 16px;
-            }
-            
-            .gift-card {
-                padding: 16px;
-            }
-            
-            .gift-icon {
-                width: 42px;
-                height: 42px;
-                font-size: 1.1rem;
-            }
-            
-            .gift-card h4 {
-                font-size: 1rem;
-            }
-            
-            .reserve-btn, .cancel-btn {
-                padding: 13px 0;
-                font-size: 0.9rem;
-            }
-            
-            .confirmation-section {
-                padding: 20px;
-                margin-top: 15px;
-            }
-            
-            .whatsapp-btn.desktop-only {
-                padding: 14px 25px;
-                font-size: 0.95rem;
-                max-width: 100%;
-            }
-            
-            .footer {
-                padding: 18px 12px;
-                font-size: 0.8rem;
-                margin-top: 20px;
-            }
-            
-            .reservation-counter-mobile {
-                bottom: 70px;
-                right: 12px;
-                width: 52px;
-                height: 52px;
-            }
-            
-            .counter-number {
-                font-size: 1.2rem;
-            }
-            
             .mobile-controls {
-                bottom: 12px;
-                gap: 12px;
-                padding: 0 12px;
+                padding: 15px;
+                justify-content: center;
+                gap: 30px;
             }
             
             .control-btn {
-                width: 52px;
-                height: 52px;
-                font-size: 1.1rem;
-            }
-            
-            .control-btn.whatsapp {
-                padding: 0 16px;
-                font-size: 0.85rem;
+                width: 55px;
+                height: 55px;
             }
         }
         
-        /* Ajustes para telas muito pequenas */
-        @media (max-width: 360px) {
-            .logo {
-                font-size: 1.35rem;
+        @media (min-width: 768px) {
+            .container {
+                max-width: 700px;
             }
             
-            .header h1 {
-                font-size: 1.2rem;
+            .mobile-controls {
+                display: none;
             }
             
-            .gift-card::after {
-                font-size: 0.65rem;
-                padding: 3px 8px;
-                right: 8px;
-                top: 8px;
+            .whatsapp-btn-mobile {
+                display: none;
             }
             
-            .btn-group {
+            /* CONTROLES DESKTOP */
+            .desktop-controls {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 100;
+                display: flex;
                 flex-direction: column;
                 gap: 10px;
             }
             
-            .reserve-btn, .cancel-btn {
-                padding: 12px 0;
+            .desktop-fireworks-btn {
+                background: rgba(255, 255, 255, 0.1);
+                border: 1px solid var(--glass-border);
+                color: white;
+                padding: 10px 20px;
+                border-radius: 50px;
+                cursor: pointer;
+                transition: var(--transition);
+                display: flex;
+                align-items: center;
+                gap: 10px;
             }
             
-            .mobile-controls {
-                gap: 8px;
-            }
-            
-            .control-btn {
-                width: 48px;
-                height: 48px;
-            }
-            
-            .control-btn.whatsapp {
-                padding: 0 12px;
-                font-size: 0.8rem;
+            .whatsapp-btn-desktop {
+                background: #25D366;
+                color: white;
+                border: none;
+                padding: 12px 25px;
+                border-radius: 50px;
+                font-weight: 600;
+                cursor: pointer;
+                text-decoration: none;
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                margin-top: 20px;
             }
         }
         
-        /* Prevenir sobreposição em telas muito curtas */
-        @media (max-height: 700px) {
-            .reservation-counter-mobile {
-                bottom: 65px;
-            }
-            
-            .mobile-controls {
-                bottom: 10px;
-            }
-            
+        @media (min-width: 1024px) {
             .container {
-                padding-bottom: 20px;
+                max-width: 800px;
+            }
+            
+            .gift-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        /* ANIMAÇÕES */
+        @keyframes celebrate {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .celebrate {
+            animation: celebrate 0.3s ease;
+        }
+        
+        /* UTILITÁRIOS */
+        .hidden {
+            display: none !important;
+        }
+        
+        /* MELHORAR TOUCH NO MOBILE */
+        @media (max-width: 768px) {
+            button, a {
+                min-height: 44px; /* Tamanho mínimo para touch */
             }
         }
     </style>
@@ -937,104 +498,78 @@
     <!-- Canvas para fogos de artifício -->
     <canvas id="fireworksCanvas"></canvas>
     
-    <!-- Overlay de iluminação -->
+    <!-- Overlay de brilho -->
     <div class="light-overlay" id="lightOverlay"></div>
     
-    <!-- Contador de reservas para desktop -->
-    <div class="reservation-counter-desktop">
-        <h4><i class="fas fa-gift"></i> Presentes Reservados</h4>
-        <div id="reservationCount">0 presente(s)</div>
-        <span class="desktop-counter-number" id="desktopReservationNumber">0</span>/10
-        <div style="font-size: 0.8rem; color: var(--gray-light); text-align: center;">
-            Clique para reservar/desmarcar
-        </div>
-    </div>
-    
-    <!-- Controles de fogos para desktop -->
-    <div class="desktop-controls">
-        <button class="desktop-fireworks-btn launch" id="launchFireworksDesktop" title="Lançar fogos agora">
-            <i class="fas fa-bolt"></i>
-            <span>Lançar Fogos</span>
-        </button>
-        <button class="desktop-fireworks-btn active" id="toggleFireworksDesktop" title="Ligar/Desligar fogos">
-            <i class="fas fa-fire" id="fireworksIconDesktop"></i>
-            <span id="fireworksStatusDesktop">Fogos: ON</span>
-        </button>
-    </div>
-    
-    <!-- Contador de reservas para mobile -->
-    <div class="reservation-counter-mobile" id="mobileReservationCounter">
+    <!-- Contador de reservas mobile -->
+    <div class="reservation-counter-mobile" id="reservationCounterMobile">
         <span class="counter-number" id="mobileReservationNumber">0</span>
         <span class="counter-label">/10</span>
     </div>
     
+    <!-- Botão WhatsApp Mobile -->
+    <a href="https://wa.me/5551984238876?text=Olá%20Engels!%20Confirmo%20minha%20presença%20no%20seu%20aniversário%20e%20chá%20de%20casa%20nova%20dia%206%20de%20fevereiro!"
+       class="whatsapp-btn-mobile"
+       target="_blank">
+        <i class="fab fa-whatsapp"></i>
+        Confirmar
+    </a>
+
     <div class="container">
-        <!-- Header transparente -->
+        <!-- Header -->
         <header class="header">
-            <div class="header-content">
-                <div class="logo">
-                    <i class="fas fa-gift glow"></i>
-                    <span>Aniversário & Chá de Casa</span>
-                </div>
-                <h1>Convite Especial</h1>
-                <h2>Engels Eduardo Cenci</h2>
-                <div class="date-badge">
-                    <i class="fas fa-calendar-alt"></i>
-                    <span>6 de fevereiro (sexta-feira) - À noite</span>
-                </div>
+            <div class="logo">
+                <i class="fas fa-gift"></i>
+                <span>Aniversário & Chá de Casa Nova</span>
+            </div>
+            <h1>Convite Especial</h1>
+            <h2>Engels Eduardo Cenci</h2>
+            <div class="date-badge">
+                <i class="fas fa-calendar-alt"></i>
+                <span>6 de fevereiro (sexta-feira) - À noite</span>
             </div>
         </header>
         
-        <!-- Seção de informações -->
+        <!-- Informações -->
         <section class="section">
             <h2 class="section-title">
                 <i class="fas fa-info-circle"></i>
-                Informações do Evento
+                Informações
             </h2>
             <div class="info-grid">
                 <div class="info-card">
-                    <h3><i class="fas fa-map-marked-alt"></i> Localização</h3>
-                    <p class="highlight">"Casa da minha mãe"</p>
-                    <p style="font-size: 0.9rem; color: var(--gray-light);">Endereço via WhatsApp após confirmação.</p>
+                    <h3><i class="fas fa-map-marked-alt"></i> Local</h3>
+                    <p>"Casa da minha mãe"</p>
+                    <small>Endereço via WhatsApp após confirmação</small>
                 </div>
                 <div class="info-card">
-                    <h3><i class="fas fa-glass-cheers"></i> Dupla Celebração</h3>
-                    <p><span class="highlight">5 de fevereiro:</span> Chá de Casa Nova</p>
-                    <p><span class="highlight">6 de fevereiro:</span> Aniversário</p>
-                    <p style="font-size: 0.9rem;">Dois motivos para comemorar!</p>
+                    <h3><i class="fas fa-glass-cheers"></i> Celebração Dupla</h3>
+                    <p><strong>6 de fevereiro:</strong> Chá de Casa Nova</p>
+                    <p><strong>5 de fevereiro:</strong> Aniversário</p>
                 </div>
                 <div class="info-card">
                     <h3><i class="fas fa-clock"></i> Horário</h3>
-                    <p class="highlight">Sexta-feira, 6 de fevereiro</p>
-                    <p>A partir das 19:00 horas</p>
-                    <p style="font-size: 0.9rem;">Traga sua energia positiva!</p>
+                    <p><strong>Sexta-feira</strong></p>
+                    <p>A partir das 19:00</p>
                 </div>
                 <div class="info-card">
                     <h3><i class="fas fa-utensils"></i> O que terá</h3>
-                    <p style="font-size: 0.9rem;">• Comida gostosa</p>
-                    <p style="font-size: 0.9rem;">• Música animada</p>
-                    <p style="font-size: 0.9rem;">• Boa companhia</p>
+                    <p>• Salchipão</p>
+                    <p>• Música animada</p>
+                    <p>• Boa companhia</p>
                 </div>
             </div>
         </section>
         
-        <!-- Seção de presentes -->
-        <section class="section gift-section">
+        <!-- Presentes -->
+        <section class="section">
             <h2 class="section-title">
                 <i class="fas fa-gifts"></i>
-                Sugestões de Presentes para Chá de Casa
+                Sugestões de Presentes
             </h2>
             
-            <div class="gift-instructions">
-                <h4><i class="fas fa-info-circle"></i> Como funciona</h4>
-                <p style="font-size: 0.9rem;">Clique em <strong>"Reservar"</strong> para escolher um presente. Se mudar de ideia, clique em <strong>"Desmarcar"</strong>. Todas as mudanças são visíveis para todos em tempo real!</p>
-            </div>
-            
-            <div class="reservation-info">
-                <div>
-                    <i class="fas fa-sync-alt"></i> Atualizações em tempo real 
-                    <span class="reservation-count" id="liveReservationCount">0</span> reservas
-                </div>
+            <div style="background: rgba(245, 158, 11, 0.1); padding: 12px; border-radius: 8px; margin-bottom: 15px;">
+                <p style="font-size: 0.9rem;"><strong>Como funciona:</strong> Clique em "Reservar" para escolher um presente. Se mudar de ideia, clique em "Desmarcar".</p>
             </div>
             
             <div class="gift-grid" id="giftGrid">
@@ -1042,31 +577,24 @@
             </div>
         </section>
         
-        <!-- Seção de confirmação (só desktop) -->
-        <section class="confirmation-section desktop-only">
-            <h2>Confirme sua presença!</h2>
-            <p style="margin-bottom: 20px; font-size: 0.9rem;">Clique no botão abaixo para confirmar via WhatsApp</p>
-            <a href="https://wa.me/5551984238876?text=Olá%20Engels!%20Confirmo%20minha%20presença%20no%20seu%20aniversário%20e%20chá%20de%20casa%20nova%20dia%206%20de%20fevereiro!" 
-               class="whatsapp-btn desktop-only pulse" 
-               id="whatsappBtnDesktop"
+        <!-- Confirmação Desktop -->
+        <div class="hidden" id="desktopConfirmation">
+            <a href="https://wa.me/5551984238876?text=Olá%20Engels!%20Confirmo%20minha%20presença%20no%20seu%20aniversário%20e%20chá%20de%20casa%20nova%20dia%206%20de%20fevereiro!"
+               class="whatsapp-btn-desktop"
                target="_blank">
                 <i class="fab fa-whatsapp"></i>
                 Confirmar pelo WhatsApp
             </a>
-            <p style="margin-top: 15px; color: var(--gray-light); font-size: 0.8rem;">
-                <i class="fas fa-info-circle"></i> Você será redirecionado para o WhatsApp
-            </p>
-        </section>
+        </div>
         
         <!-- Footer -->
         <footer class="footer">
             <p>Desenvolvido com <i class="fas fa-heart" style="color: #ef4444;"></i> por Engels Eduardo Cenci</p>
-            <p class="version">Aniversário + Chá de Casa Nova | 6 de fevereiro</p>
-            <p style="font-size: 0.8rem;">Para confirmar presença, use o botão do WhatsApp abaixo</p>
+            <p style="font-size: 0.8rem; margin-top: 5px;">Aniversário + Chá de Casa Nova | 6 de fevereiro</p>
         </footer>
     </div>
     
-    <!-- Controles mobile (rodapé fixo) -->
+    <!-- Controles Mobile -->
     <div class="mobile-controls">
         <button class="control-btn" id="toggleFireworksMobile" title="Ligar/Desligar fogos">
             <i class="fas fa-fire" id="fireworksIconMobile"></i>
@@ -1074,339 +602,446 @@
         <button class="control-btn launch" id="launchFireworksMobile" title="Lançar fogos agora">
             <i class="fas fa-bolt"></i>
         </button>
-        <a href="https://wa.me/5551984238876?text=Olá%20Engels!%20Confirmo%20minha%20presença%20no%20seu%20aniversário%20e%20chá%20de%20casa%20nova%20dia%206%20de%20fevereiro!" 
-           class="control-btn whatsapp mobile-only" 
-           target="_blank"
-           title="Confirmar presença no WhatsApp">
-            <i class="fab fa-whatsapp"></i>
-            <span>Confirmar</span>
-        </a>
+    </div>
+
+    <!-- Controles Desktop (oculto no mobile) -->
+    <div class="desktop-controls hidden" id="desktopControls">
+        <button class="desktop-fireworks-btn" id="toggleFireworksDesktop">
+            <i class="fas fa-fire" id="fireworksIconDesktop"></i>
+            <span id="fireworksStatusDesktop">Fogos: ON</span>
+        </button>
+        <button class="desktop-fireworks-btn launch" id="launchFireworksDesktop">
+            <i class="fas fa-bolt"></i>
+            <span>Lançar Fogos</span>
+        </button>
     </div>
 
     <script>
-        // Sistema de Fogos de Artifício - MUITO MAIS VISÍVEL
-        class FireworksSystem {
+        // SISTEMA DE FOGOS DE ARTIFÍCIO OTIMIZADO E REALISTA
+        class OptimizedFireworks {
             constructor() {
                 this.canvas = document.getElementById('fireworksCanvas');
-                this.ctx = this.canvas.getContext('2d');
+                this.ctx = this.canvas.getContext('2d', { alpha: true });
                 this.particles = [];
                 this.fireworks = [];
-                this.lightOverlay = document.getElementById('lightOverlay');
                 this.isActive = true;
-                this.lastLaunch = 0;
-                this.launchInterval = 3000; // 3 segundos - MAIS FREQUENTE
-                this.maxParticles = 400; // Mais partículas
-                this.resize();
+                this.animationId = null;
+                this.lastFrameTime = 0;
+                this.fps = 60;
+                this.frameInterval = 1000 / this.fps;
+                this.lastUpdateTime = 0;
                 
-                this.animate();
-                this.startAutoLaunch();
-            }
-            
-            resize() {
-                this.canvas.width = window.innerWidth;
-                this.canvas.height = window.innerHeight;
-            }
-            
-            startAutoLaunch() {
-                setInterval(() => {
-                    if (this.isActive && Date.now() - this.lastLaunch > this.launchInterval) {
-                        this.launchRandomFirework();
-                    }
-                }, 100);
-            }
-            
-            launchRandomFirework() {
-                if (!this.isActive) return;
+                // Configurações otimizadas para mobile
+                this.config = {
+                    maxParticles: 150, // Reduzido para melhor performance
+                    maxFireworks: 5,   // Máximo de fogos simultâneos
+                    gravity: 0.1,
+                    wind: 0.01,
+                    particleFadeSpeed: 0.02,
+                    trailLength: 5
+                };
                 
-                // Evitar área dos controles
-                const isMobile = window.innerWidth < 1024;
-                const controlAreaHeight = isMobile ? 100 : 0;
-                const safeHeight = this.canvas.height - controlAreaHeight;
-                
-                // Posição aleatória
-                const margin = 60;
-                const x = margin + Math.random() * (this.canvas.width - 2 * margin);
-                const y = this.canvas.height;
-                const targetY = 50 + Math.random() * (safeHeight * 0.6);
-                
-                // CORES MAIS VIVAS E BRILHANTES
-                const colors = [
-                    '#FF0000', // Vermelho vivo
-                    '#00FF00', // Verde vivo  
-                    '#0000FF', // Azul vivo
-                    '#FFFF00', // Amarelo vivo
-                    '#FF00FF', // Magenta vivo
-                    '#00FFFF', // Ciano vivo
-                    '#FF8800', // Laranja vivo
-                    '#FF0088', // Rosa vivo
-                    '#8800FF', // Roxo vivo
-                    '#00FF88', // Verde água vivo
-                    '#FF4444', // Vermelho claro
-                    '#44FF44', // Verde claro
-                    '#4444FF', // Azul claro
-                    '#FFFF44', // Amarelo claro
-                    '#FF44FF'  // Rosa claro
+                // Cores vibrantes e realistas
+                this.colors = [
+                    '#FF5252', // Vermelho vibrante
+                    '#4FC3F7', // Azul claro
+                    '#69F0AE', // Verde claro
+                    '#FFD740', // Amarelo
+                    '#FF4081', // Rosa
+                    '#7C4DFF', // Roxo
+                    '#FF6E40', // Laranja
+                    '#18FFFF'  // Ciano
                 ];
                 
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                this.createFirework(x, y, targetY, color);
-                this.lastLaunch = Date.now();
-                
-                this.createLightEffect(x, targetY, color);
+                this.init();
             }
             
-            createFirework(x, y, targetY, color) {
-                this.fireworks.push({
-                    x,
-                    y,
-                    targetY,
-                    color,
-                    speed: 3 + Math.random() * 2, // MAIS RÁPIDO
-                    size: 4 + Math.random() * 4, // MAIOR
-                    exploded: false,
-                    trail: [] // Rastro do fogo
-                });
+            init() {
+                this.resizeCanvas();
+                window.addEventListener('resize', () => this.resizeCanvas());
+                this.startAnimation();
+                
+                // Lançar alguns fogos iniciais
+                setTimeout(() => this.launchInitialFireworks(), 500);
             }
             
-            createLightEffect(x, y, color) {
-                this.lightOverlay.style.setProperty('--x', `${x}px`);
-                this.lightOverlay.style.setProperty('--y', `${y}px`);
-                this.lightOverlay.style.opacity = '1'; // MÁXIMA OPACIDADE
+            resizeCanvas() {
+                const dpr = window.devicePixelRatio || 1;
+                const rect = this.canvas.getBoundingClientRect();
                 
-                setTimeout(() => {
-                    this.lightOverlay.style.opacity = '0';
-                }, 800); // DURA MAIS TEMPO
+                this.canvas.width = rect.width * dpr;
+                this.canvas.height = rect.height * dpr;
+                
+                this.ctx.scale(dpr, dpr);
+                this.canvas.style.width = rect.width + 'px';
+                this.canvas.style.height = rect.height + 'px';
             }
             
-            explodeFirework(firework) {
-                // MUITO MAIS PARTÍCULAS
-                const isMobile = window.innerWidth < 768;
-                const particleCount = isMobile ? 
-                    80 + Math.floor(Math.random() * 80) : // 80-160 partículas para mobile
-                    120 + Math.floor(Math.random() * 120); // 120-240 para desktop
-                
-                for (let i = 0; i < particleCount; i++) {
-                    if (this.particles.length >= this.maxParticles) break;
+            startAnimation() {
+                const animate = (currentTime) => {
+                    this.animationId = requestAnimationFrame(animate);
                     
-                    const angle = Math.random() * Math.PI * 2;
-                    const speed = 2 + Math.random() * 4; // MAIS RÁPIDAS
-                    const velocity = {
-                        x: Math.cos(angle) * speed,
-                        y: Math.sin(angle) * speed
-                    };
+                    // Controlar FPS
+                    const deltaTime = currentTime - this.lastFrameTime;
+                    if (deltaTime < this.frameInterval) return;
                     
-                    this.particles.push({
-                        x: firework.x,
-                        y: firework.targetY,
-                        color: firework.color,
-                        size: 2 + Math.random() * 3, // MAIORES
-                        velocity,
-                        life: 100 + Math.random() * 80, // VIVEM MAIS
-                        decay: 0.92 + Math.random() * 0.05, // DECAEM MAIS DEVAGAR
-                        glow: 15 + Math.random() * 20 // BRILHO
-                    });
+                    this.lastFrameTime = currentTime - (deltaTime % this.frameInterval);
+                    
+                    // Limpar canvas com efeito de rastro suave
+                    this.ctx.fillStyle = 'rgba(15, 23, 42, 0.08)';
+                    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                    
+                    // Atualizar e desenhar
+                    this.update(currentTime);
+                    this.draw();
+                };
+                
+                this.animationId = requestAnimationFrame(animate);
+            }
+            
+            update(currentTime) {
+                // Limitar número de partículas para evitar travamento
+                if (this.particles.length > this.config.maxParticles) {
+                    this.particles.splice(0, this.particles.length - this.config.maxParticles);
                 }
-            }
-            
-            update() {
+                
                 // Atualizar fogos
                 for (let i = this.fireworks.length - 1; i >= 0; i--) {
-                    const firework = this.fireworks[i];
+                    const fw = this.fireworks[i];
                     
-                    // Adicionar ponto ao rastro
-                    firework.trail.push({x: firework.x, y: firework.y});
-                    if (firework.trail.length > 8) {
-                        firework.trail.shift();
+                    // Física realista do fogo subindo
+                    fw.velocity.y -= fw.speed * 0.1;
+                    fw.x += Math.sin(fw.angle) * 0.5;
+                    fw.y += fw.velocity.y;
+                    
+                    // Adicionar partículas de rastro
+                    if (Math.random() > 0.7) {
+                        this.addTrailParticle(fw.x, fw.y, fw.color);
                     }
                     
-                    if (!firework.exploded) {
-                        firework.y -= firework.speed;
-                        
-                        if (firework.y <= firework.targetY) {
-                            firework.exploded = true;
-                            this.explodeFirework(firework);
-                        }
-                    }
-                    
-                    if (firework.exploded) {
+                    // Verificar explosão
+                    if (fw.velocity.y >= 0 || fw.y <= fw.targetY) {
+                        this.explodeFirework(fw);
                         this.fireworks.splice(i, 1);
                     }
                 }
                 
                 // Atualizar partículas
                 for (let i = this.particles.length - 1; i >= 0; i--) {
-                    const particle = this.particles[i];
+                    const p = this.particles[i];
                     
-                    particle.x += particle.velocity.x;
-                    particle.y += particle.velocity.y;
-                    particle.velocity.x *= 0.96;
-                    particle.velocity.y *= 0.96;
-                    particle.velocity.y += 0.08; // MAIS GRAVIDADE
-                    particle.life -= 1.2;
-                    particle.size *= particle.decay;
+                    // Física realista
+                    p.velocity.x += (Math.random() - 0.5) * 0.1;
+                    p.velocity.y += this.config.gravity;
+                    p.x += p.velocity.x;
+                    p.y += p.velocity.y;
                     
-                    if (particle.life <= 0 || particle.size <= 0.1) {
+                    // Efeito de desvanecimento
+                    p.alpha -= this.config.particleFadeSpeed;
+                    p.size *= 0.97;
+                    
+                    // Remover partículas desvanecidas
+                    if (p.alpha <= 0 || p.size <= 0.1) {
                         this.particles.splice(i, 1);
                     }
                 }
             }
             
             draw() {
-                // Fundo MUITO mais transparente
-                this.ctx.fillStyle = 'rgba(10, 23, 47, 0.01)';
-                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-                
-                // Desenhar fogos
-                this.fireworks.forEach(firework => {
-                    // Desenhar rastro
-                    for (let i = 0; i < firework.trail.length; i++) {
-                        const point = firework.trail[i];
-                        const alpha = i / firework.trail.length * 0.5;
-                        
-                        this.ctx.beginPath();
-                        this.ctx.fillStyle = firework.color;
-                        this.ctx.globalAlpha = alpha;
-                        
-                        this.ctx.shadowBlur = 30;
-                        this.ctx.shadowColor = firework.color;
-                        this.ctx.arc(point.x, point.y, firework.size * (i / firework.trail.length), 0, Math.PI * 2);
-                        this.ctx.fill();
-                        this.ctx.shadowBlur = 0;
-                        this.ctx.globalAlpha = 1;
-                    }
-                    
-                    // Desenhar fogo principal
-                    this.ctx.beginPath();
-                    this.ctx.fillStyle = firework.color;
-                    
-                    // BRILHO MÁXIMO
-                    this.ctx.shadowBlur = 50;
-                    this.ctx.shadowColor = firework.color;
-                    this.ctx.arc(firework.x, firework.y, firework.size, 0, Math.PI * 2);
-                    this.ctx.fill();
-                    this.ctx.shadowBlur = 0;
-                });
-                
                 // Desenhar partículas
-                this.particles.forEach(particle => {
-                    if (particle.life > 0) {
-                        this.ctx.beginPath();
-                        this.ctx.fillStyle = particle.color;
-                        this.ctx.globalAlpha = particle.life / 100;
+                this.ctx.globalCompositeOperation = 'lighter';
+                
+                this.particles.forEach(p => {
+                    if (p.alpha > 0) {
+                        // Gradiente para partículas
+                        const gradient = this.ctx.createRadialGradient(
+                            p.x, p.y, 0,
+                            p.x, p.y, p.size
+                        );
                         
-                        // Partículas com BRILHO INTENSO
-                        this.ctx.shadowBlur = particle.glow;
-                        this.ctx.shadowColor = particle.color;
-                        this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                        gradient.addColorStop(0, p.color + 'FF');
+                        gradient.addColorStop(0.5, p.color + 'AA');
+                        gradient.addColorStop(1, p.color + '00');
+                        
+                        this.ctx.beginPath();
+                        this.ctx.fillStyle = gradient;
+                        this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
                         this.ctx.fill();
-                        this.ctx.shadowBlur = 0;
-                        this.ctx.globalAlpha = 1;
+                        
+                        // Brilho intenso no centro
+                        if (p.size > 2) {
+                            this.ctx.beginPath();
+                            this.ctx.fillStyle = '#FFFFFF';
+                            this.ctx.globalAlpha = p.alpha * 0.5;
+                            this.ctx.arc(p.x, p.y, p.size * 0.3, 0, Math.PI * 2);
+                            this.ctx.fill();
+                            this.ctx.globalAlpha = 1;
+                        }
                     }
+                });
+                
+                // Desenhar fogos subindo
+                this.fireworks.forEach(fw => {
+                    // Corpo do fogo
+                    const gradient = this.ctx.createLinearGradient(
+                        fw.x, fw.y,
+                        fw.x, fw.y + 8
+                    );
+                    
+                    gradient.addColorStop(0, fw.color + 'FF');
+                    gradient.addColorStop(1, fw.color + '00');
+                    
+                    this.ctx.beginPath();
+                    this.ctx.fillStyle = gradient;
+                    this.ctx.ellipse(fw.x, fw.y, 2, 6, 0, 0, Math.PI * 2);
+                    this.ctx.fill();
+                    
+                    // Brilho
+                    this.ctx.beginPath();
+                    this.ctx.fillStyle = '#FFFFFF';
+                    this.ctx.globalAlpha = 0.7;
+                    this.ctx.arc(fw.x, fw.y, 1, 0, Math.PI * 2);
+                    this.ctx.fill();
+                    this.ctx.globalAlpha = 1;
+                });
+                
+                this.ctx.globalCompositeOperation = 'source-over';
+            }
+            
+            addTrailParticle(x, y, color) {
+                if (this.particles.length >= this.config.maxParticles) return;
+                
+                this.particles.push({
+                    x: x + (Math.random() - 0.5) * 3,
+                    y: y + (Math.random() - 0.5) * 3,
+                    color: color,
+                    size: 1 + Math.random() * 2,
+                    velocity: {
+                        x: (Math.random() - 0.5) * 0.5,
+                        y: Math.random() * 1
+                    },
+                    alpha: 0.7 + Math.random() * 0.3,
+                    life: 1
                 });
             }
             
-            animate() {
-                this.update();
-                this.draw();
-                requestAnimationFrame(() => this.animate());
-            }
-            
-            toggle() {
-                this.isActive = !this.isActive;
-                if (!this.isActive) {
-                    this.particles = [];
-                    this.fireworks = [];
-                    this.lightOverlay.style.opacity = '0';
-                }
-                return this.isActive;
-            }
-            
-            launchNow() {
-                if (!this.isActive) return;
+            createFirework(x, targetY, color) {
+                if (this.fireworks.length >= this.config.maxFireworks) return;
                 
-                const isMobile = window.innerWidth < 768;
-                const count = isMobile ? 4 : 8; // MAIS FOGOS
+                this.fireworks.push({
+                    x: x,
+                    y: this.canvas.height,
+                    targetY: targetY,
+                    color: color,
+                    speed: 3 + Math.random() * 2,
+                    velocity: { x: 0, y: -8 - Math.random() * 4 },
+                    angle: Math.random() * Math.PI * 2
+                });
+                
+                // Efeito de brilho
+                this.createLightEffect(x, targetY, color);
+            }
+            
+            createLightEffect(x, y, color) {
+                const overlay = document.getElementById('lightOverlay');
+                overlay.style.setProperty('--mouse-x', `${x}px`);
+                overlay.style.setProperty('--mouse-y', `${y}px`);
+                overlay.style.opacity = '0.6';
+                
+                setTimeout(() => {
+                    overlay.style.opacity = '0';
+                }, 600);
+            }
+            
+            explodeFirework(fw) {
+                const particleCount = window.innerWidth < 768 ? 40 : 70;
+                const explosionPower = 4 + Math.random() * 2;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    if (this.particles.length >= this.config.maxParticles) break;
                     
-                for (let i = 0; i < count; i++) {
-                    setTimeout(() => {
-                        this.launchRandomFirework();
-                    }, i * 200); // INTERVALO MENOR
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = explosionPower * (0.5 + Math.random() * 0.5);
+                    
+                    this.particles.push({
+                        x: fw.x,
+                        y: fw.y,
+                        color: fw.color,
+                        size: 3 + Math.random() * 4,
+                        velocity: {
+                            x: Math.cos(angle) * speed,
+                            y: Math.sin(angle) * speed
+                        },
+                        alpha: 1,
+                        life: 1
+                    });
                 }
+                
+                // Sombreamento para explosão realista
+                this.createExplosionShockwave(fw.x, fw.y, fw.color);
+            }
+            
+            createExplosionShockwave(x, y, color) {
+                // Adicionar partículas especiais para o efeito de onda
+                for (let i = 0; i < 10; i++) {
+                    this.particles.push({
+                        x: x,
+                        y: y,
+                        color: '#FFFFFF',
+                        size: 1 + Math.random() * 2,
+                        velocity: {
+                            x: (Math.random() - 0.5) * 2,
+                            y: (Math.random() - 0.5) * 2
+                        },
+                        alpha: 0.8,
+                        life: 1
+                    });
+                }
+            }
+            
+            launchRandomFirework() {
+                if (!this.isActive || this.fireworks.length >= this.config.maxFireworks) return;
+                
+                const margin = 50;
+                const x = margin + Math.random() * (this.canvas.width - 2 * margin);
+                const targetY = 80 + Math.random() * (this.canvas.height * 0.4);
+                const color = this.colors[Math.floor(Math.random() * this.colors.length)];
+                
+                this.createFirework(x, targetY, color);
+            }
+            
+            launchInitialFireworks() {
+                // Fogos iniciais mais esparsos
+                setTimeout(() => this.launchRandomFirework(), 0);
+                setTimeout(() => this.launchRandomFirework(), 300);
+                setTimeout(() => this.launchRandomFirework(), 600);
             }
             
             launchCelebration() {
                 if (!this.isActive) return;
                 
-                const isMobile = window.innerWidth < 768;
-                const count = isMobile ? 5 : 10; // MAIS FOGOS PARA CELEBRAÇÃO
-                const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
+                const count = window.innerWidth < 768 ? 3 : 5;
+                const delay = 200;
                 
                 for (let i = 0; i < count; i++) {
                     setTimeout(() => {
-                        const x = 40 + Math.random() * (this.canvas.width - 80);
-                        const targetY = 40 + Math.random() * (this.canvas.height * 0.7);
-                        const color = colors[Math.floor(Math.random() * colors.length)];
-                        
-                        this.createFirework(x, this.canvas.height, targetY, color);
-                        this.createLightEffect(x, targetY, color);
+                        this.launchRandomFirework();
+                    }, i * delay);
+                }
+            }
+            
+            launchNow() {
+                if (!this.isActive) return;
+                
+                const count = window.innerWidth < 768 ? 2 : 4;
+                
+                for (let i = 0; i < count; i++) {
+                    setTimeout(() => {
+                        this.launchRandomFirework();
                     }, i * 150);
+                }
+            }
+            
+            toggle() {
+                this.isActive = !this.isActive;
+                
+                if (!this.isActive) {
+                    // Limpar rapidamente as partículas
+                    this.particles = [];
+                    this.fireworks = [];
+                } else {
+                    // Reativar com alguns fogos
+                    setTimeout(() => this.launchNow(), 500);
+                }
+                
+                return this.isActive;
+            }
+            
+            destroy() {
+                if (this.animationId) {
+                    cancelAnimationFrame(this.animationId);
                 }
             }
         }
 
-        // Dados dos presentes
-        const gifts = [
-            { id: 1, name: "Liquidificador", icon: "fas fa-blender" },
-            { id: 2, name: "Torradeira", icon: "fas fa-bread-slice" },
-            { id: 3, name: "Mixer", icon: "fas fa-utensil-spoon" },
-            { id: 4, name: "Kit de potes (conservação)", icon: "fas fa-box-open" },
-            { id: 5, name: "Formas para bolo/assar", icon: "fas fa-cookie-bite" },
-            { id: 6, name: "Kit temperos", icon: "fas fa-pepper-hot" },
-            { id: 7, name: "Jogo de panelas", icon: "fas fa-utensils" },
-            { id: 8, name: "Conjunto de facas", icon: "fas fa-utensil-knife" },
-            { id: 9, name: "Roupas de cama", icon: "fas fa-bed" },
-            { id: 10, name: "Toalhas de banho", icon: "fas fa-bath" }
-        ];
+        // SISTEMA DE CONVITE
+        // Array atualizado com novos presentes (excluindo os já listados)
+const gifts = [
+    // ITENS JÁ EXISTENTES (mantidos)
+    { id: 1, name: "Jogo de tábuas de corte (3 peças)", icon: "fas fa-utensil-knife", category: "cozinha" },
+    { id: 2, name: "Conjunto de espátulas de silicone", icon: "fas fa-utensil-spoon", category: "cozinha" },
+    { id: 3, name: "Escorredor de macarrão prático", icon: "fas fa-filter", category: "cozinha" },
+    { id: 4, name: "Kit potes herméticos (vários tamanhos)", icon: "fas fa-box-open", category: "cozinha" },
+    { id: 5, name: "Organizador de temperos", icon: "fas fa-pepper-hot", category: "cozinha" },
+    { id: 7, name: "Cesto de roupa suja com divisórias", icon: "fas fa-basket-shopping", category: "organização" },
+    { id: 8, name: "Protetor de colchão impermeável", icon: "fas fa-bed", category: "quarto" },
+    { id: 9, name: "Tapete de banheiro antiderrapante", icon: "fas fa-bath", category: "banheiro" },
+    { id: 11, name: "Jogo extra de toalhas", icon: "fas fa-tshirt", category: "banheiro" },
+    { id: 14, name: "Faca de chef de qualidade", icon: "fas fa-utensil-knife", category: "cozinha" },
+    { id: 15, name: "Ferro de passar a vapor", icon: "fas fa-tshirt", category: "casa" },
+    
+    // NOVOS ITENS ADICIONADOS 🔥
+    // Cozinha
+    { id: 16, name: "Panela de pressão média", icon: "fas fa-temperature-high", category: "cozinha" },
+    { id: 17, name: "Wok antiaderente", icon: "fas fa-stroopwafel", category: "cozinha" },
+    { id: 18, name: "Ralador/Descascador multifuncional", icon: "fas fa-carrot", category: "cozinha" },
+    { id: 19, name: "Balança de cozinha digital", icon: "fas fa-weight-scale", category: "cozinha" },
+    { id: 20, name: "Conjunto de tigelas com tampas", icon: "fas fa-bowl-food", category: "cozinha" },
+    
+    // Organização
+    { id: 22, name: "Organizador de produtos de limpeza", icon: "fas fa-soap", category: "organização" },
+    
+    // Quarto/Cama
+    { id: 26, name: "Jogo de cama completo (cama queen)", icon: "fas fa-bed", category: "quarto" },
+    { id: 27, name: "Travesseiros ortopédicos (2 unidades)", icon: "fas fa-user-headset", category: "quarto" },
+    { id: 29, name: "Kit travesseiros decorativos", icon: "fas fa-couch", category: "decor" },
+    
+    // Banheiro
+    { id: 30, name: "Porta-toalhas aquecido", icon: "fas fa-temperature-arrow-up", category: "banheiro" },
+    { id: 31, name: "Kit organizador de banheiro (prateleiras)", icon: "fas fa-bath", category: "organização" },
+    
+    // Eletrodomésticos úteis
+    { id: 33, name: "Liquidificador potente", icon: "fas fa-blender", category: "eletro" },
+    { id: 34, name: "Faqueiro elétrico", icon: "fas fa-kitchen-set", category: "eletro" },
+    { id: 35, name: "Máquina de café (cápsulas ou pressão)", icon: "fas fa-mug-hot", category: "eletro" },
+    { id: 37, name: "Purificador de água", icon: "fas fa-droplet", category: "eletro" },
+    
+    // Lazer/Conforto
+    { id: 38, name: "Tapete para sala", icon: "fas fa-rug", category: "decor" },
+    { id: 39, name: "Cortinas blackout para quarto", icon: "fas fa-window-frame", category: "decor" },
+    { id: 41, name: "Soundbar ou caixa de som Bluetooth", icon: "fas fa-music", category: "lazer" },
+    
+    // Práticos e diferentes
+    { id: 43, name: "Jogo de cama extra para visitas", icon: "fas fa-person-shelter", category: "quarto" },
+    { id: 45, name: "Kit churrasco (para varanda/área gourmet)", icon: "fas fa-fire-burner", category: "lazer" },
+    
+    // Vales-presente (últimas opções)
+    { id: 48, name: "Vale-presente Amazon/Magazine Luiza", icon: "fas fa-shopping-cart", category: "vale" }
+    ];
 
         // Elementos DOM
         const giftGrid = document.getElementById('giftGrid');
-        const whatsappBtnDesktop = document.getElementById('whatsappBtnDesktop');
-        const toggleFireworksMobile = document.getElementById('toggleFireworksMobile');
-        const launchFireworksMobile = document.getElementById('launchFireworksMobile');
-        const fireworksIconMobile = document.getElementById('fireworksIconMobile');
-        const toggleFireworksDesktop = document.getElementById('toggleFireworksDesktop');
-        const launchFireworksDesktop = document.getElementById('launchFireworksDesktop');
-        const fireworksIconDesktop = document.getElementById('fireworksIconDesktop');
-        const fireworksStatusDesktop = document.getElementById('fireworksStatusDesktop');
-        const desktopReservationNumber = document.getElementById('desktopReservationNumber');
         const mobileReservationNumber = document.getElementById('mobileReservationNumber');
-        const reservationCount = document.getElementById('reservationCount');
-        const liveReservationCount = document.getElementById('liveReservationCount');
-        const mobileReservationCounter = document.getElementById('mobileReservationCounter');
+        const reservationCounterMobile = document.getElementById('reservationCounterMobile');
 
-        // Estado da aplicação
+        // Estado
         let reservedGifts = JSON.parse(localStorage.getItem('reservedGifts')) || {};
         let totalReservations = Object.keys(reservedGifts).length;
         let fireworksSystem;
 
-        // Atualizar contador de reservas
+        // Atualizar contador
         function updateReservationCounter() {
             totalReservations = Object.keys(reservedGifts).length;
-            desktopReservationNumber.textContent = totalReservations;
             mobileReservationNumber.textContent = totalReservations;
-            reservationCount.textContent = `${totalReservations} presente${totalReservations !== 1 ? 's' : ''}`;
-            liveReservationCount.textContent = totalReservations;
             
-            // Animação no contador mobile
-            if (totalReservations > 0) {
-                mobileReservationCounter.classList.add('pulse');
-                setTimeout(() => {
-                    mobileReservationCounter.classList.remove('pulse');
-                }, 800);
-            }
+            // Animação no contador
+            reservationCounterMobile.classList.add('celebrate');
+            setTimeout(() => {
+                reservationCounterMobile.classList.remove('celebrate');
+            }, 300);
         }
 
-        // Inicializar a lista de presentes
+        // Inicializar presentes
         function initializeGifts() {
             giftGrid.innerHTML = '';
             
@@ -1418,226 +1053,215 @@
                 giftCard.dataset.id = gift.id;
                 
                 giftCard.innerHTML = `
-                    <div class="gift-card-header">
-                        <div class="gift-info">
-                            <div class="gift-icon">
-                                <i class="${gift.icon}"></i>
-                            </div>
-                            <h4>${gift.name}</h4>
+                    <div class="gift-info">
+                        <div class="gift-icon">
+                            <i class="${gift.icon}"></i>
                         </div>
-                        <div class="btn-group">
-                            ${isReserved ? 
-                                `<button class="cancel-btn" data-id="${gift.id}">
-                                    <i class="fas fa-times"></i>
-                                    Desmarcar
-                                </button>` : 
-                                `<button class="reserve-btn" data-id="${gift.id}">
-                                    <i class="fas fa-gift"></i>
-                                    Reservar
-                                </button>`
-                            }
-                        </div>
+                        <h4 style="flex: 1; font-size: 0.95rem;">${gift.name}</h4>
+                    </div>
+                    <div class="btn-group">
+                        ${isReserved ? 
+                            `<button class="cancel-btn" data-id="${gift.id}">
+                                <i class="fas fa-times"></i>
+                                Desmarcar
+                            </button>` : 
+                            `<button class="reserve-btn" data-id="${gift.id}">
+                                <i class="fas fa-gift"></i>
+                                Reservar
+                            </button>`
+                        }
                     </div>
                 `;
                 
                 giftGrid.appendChild(giftCard);
             });
             
-            // Adicionar event listeners aos botões de reserva
+            // Event listeners
             document.querySelectorAll('.reserve-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const giftId = parseInt(this.dataset.id);
-                    reserveGift(giftId, this);
+                    reserveGift(giftId);
                 });
             });
             
-            // Adicionar event listeners aos botões de desmarcar
             document.querySelectorAll('.cancel-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const giftId = parseInt(this.dataset.id);
-                    cancelReservation(giftId, this);
+                    cancelReservation(giftId);
                 });
             });
         }
         
         // Reservar presente
-        function reserveGift(giftId, button) {
-            if (!reservedGifts[giftId]) {
-                // Reservar o presente
+        function reserveGift(giftId) {
+            if (!reservedGifts[giftId] && totalReservations < 10) {
                 reservedGifts[giftId] = true;
                 localStorage.setItem('reservedGifts', JSON.stringify(reservedGifts));
                 
-                // Atualizar interface
                 initializeGifts();
                 updateReservationCounter();
-                
-                // Efeitos visuais
-                button.classList.add('celebrate');
-                
-                // Disparar fogos de comemoração
                 fireworksSystem.launchCelebration();
-                
-                // Feedback visual
-                showNotification('Presente reservado com sucesso! 🎉', 'success');
+                showNotification('Presente reservado! 🎉');
+            } else if (totalReservations >= 10) {
+                showNotification('Limite de 10 presentes atingido!', 'warning');
             }
         }
         
         // Cancelar reserva
-        function cancelReservation(giftId, button) {
+        function cancelReservation(giftId) {
             if (reservedGifts[giftId]) {
-                // Remover reserva
                 delete reservedGifts[giftId];
                 localStorage.setItem('reservedGifts', JSON.stringify(reservedGifts));
                 
-                // Atualizar interface
                 initializeGifts();
                 updateReservationCounter();
-                
-                // Efeitos visuais
-                button.classList.add('shake');
-                
-                // Feedback visual
-                showNotification('Reserva cancelada!', 'warning');
+                showNotification('Reserva cancelada!');
             }
         }
         
-        // Mostrar notificação
-        function showNotification(message, type = 'info') {
+        // Notificação
+        function showNotification(message, type = 'success') {
             const notification = document.createElement('div');
+            notification.textContent = message;
             notification.style.cssText = `
                 position: fixed;
                 top: 20px;
                 left: 50%;
                 transform: translateX(-50%);
-                background: ${type === 'success' ? 'rgba(16, 185, 129, 0.9)' : type === 'warning' ? 'rgba(245, 158, 11, 0.9)' : 'rgba(59, 130, 246, 0.9)'};
+                background: ${type === 'success' ? '#10b981' : '#f59e0b'};
                 color: white;
                 padding: 12px 24px;
-                border-radius: 10px;
-                box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+                border-radius: 8px;
                 z-index: 1001;
-                animation: slideDown 0.3s ease;
-                max-width: 90%;
+                animation: slideIn 0.3s ease;
                 font-size: 0.9rem;
-                text-align: center;
-                backdrop-filter: blur(10px);
-                border: 1px solid rgba(255, 255, 255, 0.1);
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             `;
             
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes slideDown {
-                    from { transform: translateX(-50%) translateY(-20px); opacity: 0; }
-                    to { transform: translateX(-50%) translateY(0); opacity: 1; }
-                }
-            `;
-            document.head.appendChild(style);
-            
-            notification.textContent = message;
             document.body.appendChild(notification);
             
             setTimeout(() => {
-                notification.style.animation = 'fadeOut 0.3s ease';
-                setTimeout(() => {
-                    document.body.removeChild(notification);
-                }, 300);
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
             }, 2000);
+            
+            // Adicionar animações CSS
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(-50%) translateY(-20px); opacity: 0; }
+                    to { transform: translateX(-50%) translateY(0); opacity: 1; }
+                }
+                @keyframes slideOut {
+                    from { transform: translateX(-50%) translateY(0); opacity: 1; }
+                    to { transform: translateX(-50%) translateY(-20px); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
         }
-        
-        // Inicializar a aplicação
+
+        // Inicializar aplicação
         document.addEventListener('DOMContentLoaded', () => {
-            // Inicializar sistema de fogos
-            fireworksSystem = new FireworksSystem();
+            // Inicializar fogos
+            fireworksSystem = new OptimizedFireworks();
             
-            // Redimensionar canvas quando a janela for redimensionada
-            window.addEventListener('resize', () => {
-                fireworksSystem.resize();
-            });
+            // Configurar controles mobile
+            const toggleFireworksMobile = document.getElementById('toggleFireworksMobile');
+            const launchFireworksMobile = document.getElementById('launchFireworksMobile');
+            const fireworksIconMobile = document.getElementById('fireworksIconMobile');
             
-            // Configurar botões de controle dos fogos mobile
-            toggleFireworksMobile.addEventListener('click', () => {
-                const isActive = fireworksSystem.toggle();
-                fireworksIconMobile.className = isActive ? 'fas fa-fire' : 'fas fa-fire-extinguisher';
-                toggleFireworksMobile.classList.toggle('active', isActive);
+            if (toggleFireworksMobile) {
+                toggleFireworksMobile.addEventListener('click', () => {
+                    const isActive = fireworksSystem.toggle();
+                    fireworksIconMobile.className = isActive ? 'fas fa-fire' : 'fas fa-fire-extinguisher';
+                    toggleFireworksMobile.classList.toggle('active', isActive);
+                });
+            }
+            
+            if (launchFireworksMobile) {
+                launchFireworksMobile.addEventListener('click', () => {
+                    fireworksSystem.launchNow();
+                });
+            }
+            
+            // Configurar controles desktop
+            const toggleFireworksDesktop = document.getElementById('toggleFireworksDesktop');
+            const launchFireworksDesktop = document.getElementById('launchFireworksDesktop');
+            const fireworksIconDesktop = document.getElementById('fireworksIconDesktop');
+            const fireworksStatusDesktop = document.getElementById('fireworksStatusDesktop');
+            const desktopControls = document.getElementById('desktopControls');
+            const desktopConfirmation = document.getElementById('desktopConfirmation');
+            
+            // Mostrar/ocultar controles baseado no dispositivo
+            function updateDeviceLayout() {
+                const isMobile = window.innerWidth < 768;
                 
-                // Feedback tátil
-                toggleFireworksMobile.style.transform = 'scale(0.9)';
-                setTimeout(() => {
-                    toggleFireworksMobile.style.transform = '';
-                }, 100);
-            });
+                if (isMobile) {
+                    desktopControls.classList.add('hidden');
+                    desktopConfirmation.classList.add('hidden');
+                } else {
+                    desktopControls.classList.remove('hidden');
+                    desktopConfirmation.classList.remove('hidden');
+                    
+                    // Configurar controles desktop
+                    if (toggleFireworksDesktop) {
+                        toggleFireworksDesktop.addEventListener('click', () => {
+                            const isActive = fireworksSystem.toggle();
+                            fireworksIconDesktop.className = isActive ? 'fas fa-fire' : 'fas fa-fire-extinguisher';
+                            fireworksStatusDesktop.textContent = `Fogos: ${isActive ? 'ON' : 'OFF'}`;
+                        });
+                    }
+                    
+                    if (launchFireworksDesktop) {
+                        launchFireworksDesktop.addEventListener('click', () => {
+                            fireworksSystem.launchNow();
+                        });
+                    }
+                }
+            }
             
-            launchFireworksMobile.addEventListener('click', () => {
-                fireworksSystem.launchNow();
-                
-                // Feedback tátil
-                launchFireworksMobile.style.transform = 'scale(0.9)';
-                setTimeout(() => {
-                    launchFireworksMobile.style.transform = '';
-                }, 100);
-            });
+            window.addEventListener('resize', updateDeviceLayout);
+            updateDeviceLayout(); // Chamar inicialmente
             
-            // Configurar botões de controle dos fogos desktop
-            toggleFireworksDesktop.addEventListener('click', () => {
-                const isActive = fireworksSystem.toggle();
-                fireworksIconDesktop.className = isActive ? 'fas fa-fire' : 'fas fa-fire-extinguisher';
-                fireworksStatusDesktop.textContent = `Fogos: ${isActive ? 'ON' : 'OFF'}`;
-                toggleFireworksDesktop.classList.toggle('active', isActive);
-            });
-            
-            launchFireworksDesktop.addEventListener('click', () => {
-                fireworksSystem.launchNow();
-                
-                // Feedback visual
-                launchFireworksDesktop.innerHTML = '<i class="fas fa-bolt"></i> <span>Fogos Lançados!</span>';
-                setTimeout(() => {
-                    launchFireworksDesktop.innerHTML = '<i class="fas fa-bolt"></i> <span>Lançar Fogos</span>';
-                }, 1000);
-            });
-            
-            // Disparar fogos iniciais - MUITO MAIS INTENSOS
-            setTimeout(() => {
-                fireworksSystem.launchCelebration();
-            }, 500);
-            
-            // Mais fogos após alguns segundos
-            setTimeout(() => {
-                fireworksSystem.launchNow();
-            }, 2000);
-            
-            // Inicializar lista de presentes e contador
+            // Inicializar presentes
             initializeGifts();
             updateReservationCounter();
             
-            // Adicionar tooltip ao contador mobile
-            mobileReservationCounter.addEventListener('click', () => {
-                showNotification(`${totalReservations} de 10 presentes reservados`, 'info');
+            // Adicionar clique no contador mobile
+            reservationCounterMobile.addEventListener('click', () => {
+                showNotification(`${totalReservations} de 10 presentes reservados`);
             });
             
-            // Configurar links do WhatsApp
-            const whatsappMessage = encodeURIComponent(
-                "Olá Engels! Confirmo minha presença no seu aniversário e chá de casa nova dia 6 de fevereiro!"
-            );
-            
-            // Link para desktop
-            if (whatsappBtnDesktop) {
-                whatsappBtnDesktop.href = `https://wa.me/55SEUNUMERODETELEFONE?text=${whatsappMessage}`;
-            }
-            
-            // Link para mobile (no rodapé)
-            const mobileWhatsappBtn = document.querySelector('.control-btn.whatsapp');
-            if (mobileWhatsappBtn) {
-                mobileWhatsappBtn.href = `https://wa.me/5551984238876?text=${whatsappMessage}`;
-            }
-            
-            // Atualizar periodicamente (para sincronização entre abas/dispositivos)
+            // Verificar atualizações periódicas
             setInterval(() => {
-                const saved = JSON.parse(localStorage.getItem('reservedGifts')) || {};
-                if (JSON.stringify(saved) !== JSON.stringify(reservedGifts)) {
-                    reservedGifts = saved;
-                    initializeGifts();
-                    updateReservationCounter();
+                try {
+                    const saved = JSON.parse(localStorage.getItem('reservedGifts')) || {};
+                    if (JSON.stringify(saved) !== JSON.stringify(reservedGifts)) {
+                        reservedGifts = saved;
+                        initializeGifts();
+                        updateReservationCounter();
+                    }
+                } catch (e) {
+                    console.error('Erro ao verificar atualizações:', e);
                 }
-            }, 2000);
+            }, 1000);
+            
+            // Prevenir comportamento padrão em toques longos
+            document.addEventListener('touchstart', (e) => {
+                if (e.touches.length > 1) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+            
+            // Otimizar performance em mobile
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    // Pausar fogos quando a aba não está visível
+                    fireworksSystem.isActive = false;
+                } else {
+                    fireworksSystem.isActive = true;
+                }
+            });
         });
     </script>
 </body>
